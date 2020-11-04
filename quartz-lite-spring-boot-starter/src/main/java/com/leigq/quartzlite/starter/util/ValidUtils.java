@@ -2,14 +2,7 @@ package com.leigq.quartzlite.starter.util;
 
 import com.leigq.quartzlite.starter.exception.ServiceException;
 import lombok.NonNull;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -20,8 +13,6 @@ import java.util.Optional;
  * @date ：2019/7/31 22:11
  */
 public final class ValidUtils {
-
-    private static final Logger log = LoggerFactory.getLogger(ValidUtils.class);
 
     private ValidUtils() {
 
@@ -45,42 +36,6 @@ public final class ValidUtils {
         }
     }
 
-
-    /**
-     * 验证字符串是否为空
-     * <br/>
-     *
-     * @param msg      待验证字符
-     * @param errorMsg 错误信息
-     */
-    public static void isEmpty(String msg, @NonNull Object errorMsg) {
-        checkArg(StringUtils.isEmpty(msg), String.valueOf(errorMsg));
-    }
-
-
-    /**
-     * 验证集合是否为空
-     * <br/>
-     *
-     * @param collection 待验证集合
-     * @param errorMsg   错误信息
-     */
-    public static <E> void isEmpty(Collection<E> collection, @NonNull Object errorMsg) {
-        checkArg(CollectionUtils.isEmpty(collection), String.valueOf(errorMsg));
-    }
-
-    /**
-     * 验证集合是否为空
-     * <br/>
-     *
-     * @param map      待验证集合
-     * @param errorMsg 错误信息
-     */
-    public static <K, V> void isEmpty(Map<K, V> map, @NonNull Object errorMsg) {
-        checkArg(CollectionUtils.isEmpty(map), String.valueOf(errorMsg));
-    }
-
-
     /**
      * 验证对象是否为空
      * <br/>
@@ -92,17 +47,6 @@ public final class ValidUtils {
      */
     public static void isNull(Object o, @NonNull Object errorMsg) {
         Optional.ofNullable(o).orElseThrow(() -> new ServiceException(String.valueOf(errorMsg)));
-    }
-
-    /**
-     * 验证 BigDecimal 是否大于 0
-     * <br/>
-     *
-     * @param num      待验证 BigDecimal
-     * @param errorMsg 错误信息
-     */
-    public static void gtZero(@NonNull BigDecimal num, @NonNull Object errorMsg) {
-        checkArg(num.compareTo(BigDecimal.ZERO) <= 0, String.valueOf(errorMsg));
     }
 
 
