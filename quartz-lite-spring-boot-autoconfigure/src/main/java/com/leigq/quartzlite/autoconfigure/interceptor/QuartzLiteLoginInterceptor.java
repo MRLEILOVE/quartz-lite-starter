@@ -47,7 +47,7 @@ public class QuartzLiteLoginInterceptor implements HandlerInterceptor {
                 printWriter.write(JacksonUtils.objToJson(fail));
             }
         } else {
-            response.sendRedirect("/quartz-lite/quartz-lite-login.html");
+            response.sendRedirect("/quartz-lite/login.html");
         }
         return false;
     }

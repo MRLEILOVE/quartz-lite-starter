@@ -36,9 +36,8 @@ public class MvcAutoConfig implements WebMvcConfigurer {
 		registry.addInterceptor(quartzLiteLoginInterceptor)
 				// 添加拦截规则，先把所有路径都加入拦截，再一个个排除
 				.addPathPatterns("/quartz-lite/**")
-				.addPathPatterns("/**/quartz-lite-*.html/**")
 				// 排除拦截，表示该路径不用拦截
-				.excludePathPatterns("/quartz-lite/user/login", "/quartz-lite/quartz-lite-login.html", "/quartz-lite/user/imgCode", "/templates/quartzlite/**", "/static/quartzlite/**");
+				.excludePathPatterns("/quartz-lite/user/login", "/quartz-lite/login.html", "/quartz-lite/user/imgCode", "/templates/quartzlite/**", "/static/quartzlite/**");
 	}
 
 	/**
@@ -50,7 +49,7 @@ public class MvcAutoConfig implements WebMvcConfigurer {
 	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/quartz-lite/**")
+		registry.addResourceHandler("/quartz-lite/*.html")
 				.addResourceLocations("classpath:/templates/quartzlite/");
 
 		// 这是请求url的匹配模式，匹配url根路径下的所有路径（包括子路径，如果只有一个*，那就不包括子路径）
