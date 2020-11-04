@@ -11,6 +11,7 @@ import javax.crypto.NoSuchPaddingException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.cert.CertificateException;
@@ -138,7 +139,7 @@ public class RsaCoder {
      * @return 明文字符串
      */
     public static String decryptByPriKey(String data) throws NoSuchPaddingException, BadPaddingException,
-            NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException {
+            NoSuchAlgorithmException, IllegalBlockSizeException, UnsupportedEncodingException, InvalidKeyException {
         return decrypt(PRI_KEY, data);
     }
 

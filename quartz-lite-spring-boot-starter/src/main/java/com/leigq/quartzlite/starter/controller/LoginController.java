@@ -156,7 +156,7 @@ public class LoginController {
     private String decrypt(String data) {
         try {
             return RsaCoder.decryptByPriKey(data);
-        } catch (NoSuchPaddingException | BadPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | InvalidKeyException e) {
+        } catch (NoSuchPaddingException | BadPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException| UnsupportedEncodingException | InvalidKeyException e) {
             log.error("RSA解密异常：", e);
             throw new ServiceException("RSA解密失败");
         }
