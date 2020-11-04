@@ -1,5 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.leigq.quartzlite.autoconfigure.configure.LiteAutoConfig,\
-  com.leigq.quartzlite.autoconfigure.configure.QuartzAutoConfig,\
-  com.leigq.quartzlite.autoconfigure.configure.MvcAutoConfig,\
-  com.leigq.quartzlite.autoconfigure.configure.MyBatisPlusAutoConfig,\
-  com.leigq.quartzlite.autoconfigure.configure.OrikaAutoConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.leigq.quartzlite.autoconfigure.configure.QuartzLiteAutoConfig,\
+  com.leigq.quartzlite.autoconfigure.configure.MvcAutoConfig

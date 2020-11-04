@@ -1,6 +1,6 @@
 package com.leigq.quartzlite.starter.autoconfigure;
 
-import com.leigq.quartzlite.autoconfigure.properties.QuartzProperties;
+import com.leigq.quartzlite.autoconfigure.properties.QuartzLiteProperties;
 import com.leigq.quartzlite.starter.bean.job.BaseJobDisallowConcurrent;
 import com.leigq.quartzlite.starter.controller.LoginController;
 import com.leigq.quartzlite.starter.controller.SysTaskController;
@@ -15,8 +15,10 @@ import ma.glasnost.orika.MapperFactory;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,6 +30,7 @@ import org.springframework.mail.javamail.JavaMailSender;
  * @date 2020 /11/3 21:17
  */
 @Configuration
+@AutoConfigureAfter(value = MailSenderAutoConfiguration.class)
 public class AutoConfiguration {
 
 	private final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
@@ -71,7 +74,7 @@ public class AutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(SysTaskLogService.class)
-	public SysTaskLogService sysTaskLogService(MapperFactory mapperFactory) {
+	public SysTaskLogService sysTaskLogService(@Qualifier(value = "quartzLiteMapperFactory") MapperFactory mapperFactory) {
 		final SysTaskLogService sysTaskLogService = new SysTaskLogService(mapperFactory);
 		log.info("sysTaskLogService bean init [{}]", sysTaskLogService);
 		return sysTaskLogService;
@@ -86,7 +89,6 @@ public class AutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(EmailSender.class)
-	@ConditionalOnBean(value = JavaMailSender.class)
 	public EmailSender emailSender(JavaMailSender javaMailSender) {
 		final EmailSender emailSender = new EmailSender(javaMailSender);
 		log.info("emailSender bean init [{}]", emailSender);
@@ -122,13 +124,13 @@ public class AutoConfiguration {
 	/**
 	 * Login controller login controller.
 	 *
-	 * @param quartzProperties the quartz properties
+	 * @param quartzLiteProperties the quartz properties
 	 * @return the login controller
 	 */
 	@Bean
 	@ConditionalOnMissingBean(LoginController.class)
-	public LoginController loginController(QuartzProperties quartzProperties) {
-		final LoginController loginController = new LoginController(quartzProperties);
+	public LoginController loginController(QuartzLiteProperties quartzLiteProperties) {
+		final LoginController loginController = new LoginController(quartzLiteProperties);
 		log.info("loginController bean init [{}]", loginController);
 		return loginController;
 	}

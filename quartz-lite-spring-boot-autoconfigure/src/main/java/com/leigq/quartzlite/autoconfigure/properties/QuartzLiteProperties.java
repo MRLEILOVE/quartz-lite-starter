@@ -5,13 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Set;
 
 /**
- * description
+ * QuartzLite 的属性，在 Quartz 中做增加
  *
  * @author leiguoqing
  * @date 2020 -08-08 19:27:40
  */
 @ConfigurationProperties("spring.quartz")
-public class QuartzProperties {
+public class QuartzLiteProperties {
 
 	/**
 	 * 可视化任务页面配置
@@ -22,6 +22,12 @@ public class QuartzProperties {
 	 * 任务执行异常邮件配置
 	 */
 	private Mail mail;
+
+	/**
+	 * 安全相关配置
+	 */
+	private Security security;
+
 
 	/**
 	 * Gets task view.
@@ -57,6 +63,25 @@ public class QuartzProperties {
 	 */
 	public void setMail(Mail mail) {
 		this.mail = mail;
+	}
+
+
+	/**
+	 * Gets security.
+	 *
+	 * @return the security
+	 */
+	public Security getSecurity() {
+		return security;
+	}
+
+	/**
+	 * Sets security.
+	 *
+	 * @param security the security
+	 */
+	public void setSecurity(Security security) {
+		this.security = security;
 	}
 
 	/**
@@ -163,4 +188,81 @@ public class QuartzProperties {
 	}
 
 
+	/**
+	 * The type Security.
+	 */
+	public static class Security {
+
+		private Security.Auth auth;
+
+		/**
+		 * Gets auth.
+		 *
+		 * @return the auth
+		 */
+		public Security.Auth getAuth() {
+			return auth;
+		}
+
+		/**
+		 * Sets auth.
+		 *
+		 * @param auth the auth
+		 */
+		public void setAuth(Security.Auth auth) {
+			this.auth = auth;
+		}
+
+		/**
+		 * The type Auth.
+		 */
+		public static class Auth {
+
+			/**
+			 * RSA 公钥
+			 */
+			private String pubKey;
+
+			/**
+			 * RSA 私钥
+			 */
+			private String priKey;
+
+			/**
+			 * Gets pub key.
+			 *
+			 * @return the pub key
+			 */
+			public String getPubKey() {
+				return pubKey;
+			}
+
+			/**
+			 * Sets pub key.
+			 *
+			 * @param pubKey the pub key
+			 */
+			public void setPubKey(String pubKey) {
+				this.pubKey = pubKey;
+			}
+
+			/**
+			 * Gets pri key.
+			 *
+			 * @return the pri key
+			 */
+			public String getPriKey() {
+				return priKey;
+			}
+
+			/**
+			 * Sets pri key.
+			 *
+			 * @param priKey the pri key
+			 */
+			public void setPriKey(String priKey) {
+				this.priKey = priKey;
+			}
+		}
+	}
 }

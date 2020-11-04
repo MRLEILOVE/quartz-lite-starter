@@ -1,7 +1,7 @@
 package com.leigq.quartzlite.starter.bean.job;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.leigq.quartzlite.autoconfigure.properties.QuartzProperties;
+import com.leigq.quartzlite.autoconfigure.properties.QuartzLiteProperties;
 import com.leigq.quartzlite.starter.bean.dto.TaskExecuteDTO;
 import com.leigq.quartzlite.starter.bean.enumeration.SysTaskExecResultEnum;
 import com.leigq.quartzlite.starter.domain.entity.SysTaskLog;
@@ -35,7 +35,7 @@ public abstract class BaseTaskExecute {
     @Autowired
     private SysTaskLogService sysTaskLogService;
     @Autowired
-    private QuartzProperties quartzProperties;
+    private QuartzLiteProperties quartzLiteProperties;
     @Autowired
     private EmailSender emailSender;
 
@@ -117,10 +117,10 @@ public abstract class BaseTaskExecute {
      * @param e the e
      */
     private void sendEmail(Exception e) {
-        if (!quartzProperties.getMail().getEnable()) {
+        if (!quartzLiteProperties.getMail().getEnable()) {
             return;
         }
-        final Set<String> receiveUsername = quartzProperties.getMail().getReceiveUsername();
+        final Set<String> receiveUsername = quartzLiteProperties.getMail().getReceiveUsername();
         if (CollectionUtils.isEmpty(receiveUsername)) {
             return;
         }

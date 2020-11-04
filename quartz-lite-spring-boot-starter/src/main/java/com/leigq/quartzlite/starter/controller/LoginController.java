@@ -3,7 +3,7 @@ package com.leigq.quartzlite.starter.controller;
 
 import com.leigq.quartzlite.autoconfigure.bean.common.Response;
 import com.leigq.quartzlite.autoconfigure.constant.SysUserConstant;
-import com.leigq.quartzlite.autoconfigure.properties.QuartzProperties;
+import com.leigq.quartzlite.autoconfigure.properties.QuartzLiteProperties;
 import com.leigq.quartzlite.autoconfigure.util.RsaCoder;
 import com.leigq.quartzlite.starter.bean.vo.SysUserVO;
 import com.leigq.quartzlite.starter.exception.ServiceException;
@@ -46,15 +46,15 @@ public class LoginController {
     /**
      * The Quartz properties.
      */
-    private final QuartzProperties quartzProperties;
+    private final QuartzLiteProperties quartzLiteProperties;
 
     /**
      * Instantiates a new Login controller.
      *
-     * @param quartzProperties the quartz properties
+     * @param quartzLiteProperties the quartz properties
      */
-    public LoginController(QuartzProperties quartzProperties) {
-        this.quartzProperties = quartzProperties;
+    public LoginController(QuartzLiteProperties quartzLiteProperties) {
+        this.quartzLiteProperties = quartzLiteProperties;
     }
 
     /**
@@ -91,8 +91,8 @@ public class LoginController {
             return Response.fail("验证码错误");
         }
 
-        boolean usernameIsTrue = Objects.equals(username, quartzProperties.getTaskView().getLoginUsername());
-        boolean passwordIsTrue = Objects.equals(password, quartzProperties.getTaskView().getLoginPassword());
+        boolean usernameIsTrue = Objects.equals(username, quartzLiteProperties.getTaskView().getLoginUsername());
+        boolean passwordIsTrue = Objects.equals(password, quartzLiteProperties.getTaskView().getLoginPassword());
         if (!usernameIsTrue || !passwordIsTrue) {
             return Response.fail("用户名或密码错误，请重试");
         }

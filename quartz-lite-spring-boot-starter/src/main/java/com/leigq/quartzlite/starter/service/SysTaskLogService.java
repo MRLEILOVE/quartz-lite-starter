@@ -12,6 +12,7 @@ import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,7 @@ public class SysTaskLogService extends ServiceImpl<SysTaskLogMapper, SysTaskLog>
 
 	private final MapperFactory mapperFactory;
 
-	public SysTaskLogService(MapperFactory mapperFactory) {
+	public SysTaskLogService(@Qualifier(value = "quartzLiteMapperFactory") MapperFactory mapperFactory) {
 		this.mapperFactory = mapperFactory;
 	}
 
