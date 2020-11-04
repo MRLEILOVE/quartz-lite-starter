@@ -1,6 +1,8 @@
 package com.leigq.quartzlite.autoconfigure.configure;
 
 import com.leigq.quartzlite.autoconfigure.interceptor.QuartzLiteLoginInterceptor;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2019-05-24 23:50 <br>
  */
 @Configuration
+@AutoConfigureAfter(value = WebMvcAutoConfiguration.class)
 public class MvcAutoConfig implements WebMvcConfigurer {
 
 	@Override

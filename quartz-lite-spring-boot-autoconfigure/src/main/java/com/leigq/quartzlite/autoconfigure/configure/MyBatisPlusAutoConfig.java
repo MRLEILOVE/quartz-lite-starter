@@ -1,5 +1,6 @@
 package com.leigq.quartzlite.autoconfigure.configure;
 
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
@@ -7,7 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Configuration
 @MapperScan("com.leigq.quartzlite.starter.domain.mapper")
-@AutoConfigureAfter({DataSourceAutoConfiguration.class})
+@AutoConfigureAfter({MybatisPlusAutoConfiguration.class})
 public class MyBatisPlusAutoConfig {
 
     /**
