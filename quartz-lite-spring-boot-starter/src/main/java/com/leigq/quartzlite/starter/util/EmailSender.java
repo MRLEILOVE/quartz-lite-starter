@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
  * 创建人：leigq <br>
  * 创建时间：2018-11-06 17:34 <br>
  */
+@Component
 public class EmailSender {
 
 	private final Logger log = LoggerFactory.getLogger(EmailSender.class);
