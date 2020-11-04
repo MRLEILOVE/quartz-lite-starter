@@ -49,7 +49,6 @@
     <modules>
         <module>quartz-lite-spring-boot-autoconfigure</module>
         <module>quartz-lite-spring-boot-starter</module>
-        <module>quartz-lite-spring-boot-starter-test</module>
     </modules>
 
     <dependencyManagement>
