@@ -6,10 +6,13 @@ import com.leigq.quartzlite.autoconfigure.constant.SysUserConstant;
 import com.leigq.quartzlite.autoconfigure.properties.QuartzLiteProperties;
 import com.leigq.quartzlite.autoconfigure.util.RsaCoder;
 import com.leigq.quartzlite.starter.bean.vo.SysUserVO;
+import com.leigq.quartzlite.starter.exception.GlobalExceptionHand;
 import com.leigq.quartzlite.starter.exception.ServiceException;
 import com.leigq.quartzlite.starter.util.ImageCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +66,12 @@ public class LoginController {
      * @return the response
      */
     @PostMapping("/login")
-    public Response login(@Valid SysUserVO sysUserVO, HttpServletRequest request) {
+    public Response login(@Valid SysUserVO sysUserVO, HttpServletRequest request, BindingResult bindingResult) {
+        String msg = GlobalExceptionHand.handleBindingResult(bindingResult);
+        if (StringUtils.isNotBlank(msg)) {
+            return Response.fail(msg);
+        }
+
         String username = decrypt(sysUserVO.getUsername());
         String password = decrypt(sysUserVO.getPassword());
         String timestamp = decrypt(sysUserVO.getTimestamp());

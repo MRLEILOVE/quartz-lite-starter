@@ -7,6 +7,7 @@ import com.leigq.quartzlite.starter.bean.job.BaseTaskExecute;
 import com.leigq.quartzlite.starter.bean.vo.AddSysTaskVO;
 import com.leigq.quartzlite.starter.bean.vo.SysTaskListVO;
 import com.leigq.quartzlite.starter.bean.vo.UpdateSysTaskVO;
+import com.leigq.quartzlite.starter.exception.GlobalExceptionHand;
 import com.leigq.quartzlite.starter.service.SysTaskService;
 import com.leigq.quartzlite.starter.util.SpringContextHolder;
 import com.leigq.quartzlite.starter.util.ValidUtils;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.CronExpression;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,7 +54,11 @@ public class SysTaskController {
 	 * </p>
 	 */
 	@PostMapping("/tasks")
-	public Response addTask(@Valid AddSysTaskVO addSysTaskVO) {
+	public Response addTask(@Valid AddSysTaskVO addSysTaskVO, BindingResult bindingResult) {
+		String msg = GlobalExceptionHand.handleBindingResult(bindingResult);
+		if (StringUtils.isNotBlank(msg)) {
+			return Response.fail(msg);
+		}
 		this.checkTaskClassName(addSysTaskVO.getTaskClass());
 		this.checkExecParams(addSysTaskVO.getExecParams());
 		this.checkCron(addSysTaskVO.getCron());
@@ -73,7 +79,11 @@ public class SysTaskController {
 	 * </p>
 	 */
 	@PutMapping("/tasks")
-	public Response updateTask(@Valid UpdateSysTaskVO updateSysTaskVO) {
+	public Response updateTask(@Valid UpdateSysTaskVO updateSysTaskVO, BindingResult bindingResult) {
+		String msg = GlobalExceptionHand.handleBindingResult(bindingResult);
+		if (StringUtils.isNotBlank(msg)) {
+			return Response.fail(msg);
+		}
 		this.checkTaskClassName(updateSysTaskVO.getTaskClass());
 		this.checkExecParams(updateSysTaskVO.getExecParams());
 		this.checkCron(updateSysTaskVO.getCron());
