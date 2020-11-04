@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Quartz任务管理</title>
+    <script src="/static/quartzlite/js/vue.js"></script>
+    <script src="/static/quartzlite/js/vue-resource.js"></script>
+    <script src="/static/quartzlite/js/jsencrypt.min.js"></script>
+    <script src="/static/quartzlite/js/md5.js"></script>
+    <!-- 引入样式 -->
+    <link href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div>
+    <!--flex弹性盒子模型，justify-content：主抽 -->
+    <div id="login" style="display: flex;justify-content: center; margin-top: 150px">
+        <el-card style="width: 350px">
+            <template>
+                <div class="clearfix" slot="header">
+                    <span>登录</span>
+                </div>
+            </template>
+            <template>
+                <table>
+                    <tr>
+                        <td>用户名</td>
+                        <td>
+                            <el-input placeholder="请输入用户名" v-model="loginFormData.username"></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>密码</td>
+                        <td>
+                            <el-input placeholder="请输入密码" type="password" v-model="loginFormData.password"></el-input>
+                            <!-- @keydown.enter.native="doLogin"当按下enter键的时候也会执行doLogin方法-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>验证码</td>
+                        <td>
+                            <el-input @keydown.enter.native="login" maxlength="4" placeholder="请输入验证码"
+                                      v-model="loginFormData.validCode">
+                            </el-input>
+                        </td>
+                        <td>
+                            <img @click="refreshValidCode" alt="验证码" id="validCodeImg" src="/quartz-lite/user/imgCode"
+                                 style="cursor: pointer; position: relative; right: 78px; top: 2px;"
+                                 title="看不清？点击刷新">
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- 占两行-->
+                        <td colspan="2">
+                            <!-- 点击事件的两种不同的写法v-on:click和 @click-->
+                            <!--<el-button style="width: 300px" type="primary" v-on:click="doLogin">登录</el-button>-->
+                            <el-button @click="login" style="width: 300px" type="primary">登录</el-button>
+                        </td>
+                    </tr>
+                </table>
+            </template>
+        </el-card>
+    </div>
+
+</div>
+
+<footer align="center">
+    <p>&copy; Quartz 任务管理</p>
+</footer>
+
+
+<script>
+    Vue.http.headers.common['language'] = 'en';
+    const vue = new Vue({
+        el: "#login",
+        data: {
+
+            //请求的URL
+            url: 'user',
+
+            //登录的表单
+            loginFormData: {
+                username: '',
+                password: '',
+                validCode: '',
+                timestamp: '',
+                // 参数签名的key，使用随机数
+                signKey: '',
+                // 参数签名
+                sign: '',
+            },
+
+            // 公钥
+            publicKey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCV+cJIYadGdhQc84MlxsCOTZuyaeKAwImBkY23j4PdVaXh/8bRaz/KXI6V1ArgO1Q2vrDc177xfXVNgQZQz2SIApdJtXZzn/shZ73kT5xXqsUxE4L0bg9gF5IJ259ggQzG8S+OmzfJB4SUOrXvwIe8vJJXsHdxD136A0RGezC8QwIDAQAB',
+        },
+        mounted() {
+        },
+        methods: {
+            // 提醒通知
+            notifyWarning(msg) {
+                this.$notify({
+                    title: '警告',
+                    message: msg,
+                    type: 'warning'
+                });
+            },
+
+            // 成功通知
+            notifySuccess(msg) {
+                this.$notify({
+                    title: '成功',
+                    message: msg,
+                    type: 'success'
+                });
+            },
+
+            // 失败通知
+            notifyError(msg) {
+                this.$notify.error({
+                    title: '错误',
+                    message: msg,
+                });
+            },
+
+
+            // 登录
+            login() {
+                // 参数校验
+                if (!this.loginFormData.username) {
+                    this.notifyWarning('用户名不能为空');
+                    return;
+                }
+
+                if (!this.loginFormData.password) {
+                    this.notifyWarning('密码不能为空');
+                    return;
+                }
+
+                if (!this.loginFormData.validCode) {
+                    this.notifyWarning('验证码不能为空');
+                    return;
+                }
+
+                if (this.loginFormData.validCode.length !== 4) {
+                    this.notifyWarning('验证码长度应为4位');
+                    return;
+                }
+
+                // 参数构建
+                this.loginFormData.timestamp = new Date().getTime() + '';
+                this.loginFormData.signKey = this.randomNum(8);
+                this.loginFormData.sign = hex_md5('username' + "=" + this.loginFormData.username + '&' + 'password' + '=' + this.loginFormData.password +
+                    '&' + 'timestamp' + '=' + this.loginFormData.timestamp + '&' + 'validCode' + '=' + this.loginFormData.validCode
+                    + '&' + 'signKey' + '=' + this.loginFormData.signKey);
+                this.$http.post('/quartz-lite/user/login',
+                    // 生成签名后将各个参数用公钥加密传输
+                    {
+                        "username": this.encrypBypubkey(this.loginFormData.username),
+                        "password": this.encrypBypubkey(this.loginFormData.password),
+                        "timestamp": this.encrypBypubkey(this.loginFormData.timestamp),
+                        "validCode": this.encrypBypubkey(this.loginFormData.validCode),
+                        "signKey": this.encrypBypubkey(this.loginFormData.signKey),
+                        "sign": this.loginFormData.sign,
+                    },
+                    {
+                        emulateJSON: true
+                    }
+                ).then(function (res) {
+                    const meta = res.body.meta;
+                    if (meta.code === 0) {
+                        this.notifySuccess(meta.msg);
+                        // 跳转至任务列表页面
+                        window.location.href = "/quartz-lite/quartz-lite-task-manager.html";
+                    } else {
+                        this.notifyWarning(meta.msg);
+                        // 刷新验证码
+                        this.refreshValidCode();
+                    }
+                }, function () {
+                    this.notifyError(res.body.meta.msg);
+                });
+            },
+
+            /*
+             * 刷新图形验证码
+             */
+            refreshValidCode() {
+                var img = document.getElementById("validCodeImg");
+                img.src = '/quartz-lite/user/imgCode?t=' + new Date().getTime();
+            },
+
+            // 加密
+            encrypBypubkey(data) {
+                // 新建JSEncrypt对象
+                let encryptor = new JSEncrypt();
+                // 设置公钥
+                encryptor.setPublicKey(this.publicKey);
+                // 加密数据
+                return encryptor.encrypt(data);
+            },
+            /**
+             * js产生随机数函数
+             * n int 需要产生的随机数位数
+             */
+            randomNum(n) {
+                let rnd = "";
+                for (var i = 0; i < n; i++)
+                    rnd += Math.floor(Math.random() * 10);
+                return rnd;
+            }
+        }
+    });
+</script>
+</body>
+</html>

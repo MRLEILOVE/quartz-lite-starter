@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.9.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.leigq</groupId>
+    <artifactId>quartz-lite-starter</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>quartz-lite-starter-parent</name>
+    <description>Quartz Lite Starter project for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-boot.version>2.2.9.RELEASE</spring-boot.version>
+        <quartz-lite-spring-boot-starter.version>0.0.1-SNAPSHOT</quartz-lite-spring-boot-starter.version>
+        <druid-spring-boot.version>1.1.10</druid-spring-boot.version>
+        <mybatis-plus-boot-starter.version>3.2.0</mybatis-plus-boot-starter.version>
+        <guava.version>28.2-jre</guava.version>
+        <orika-core.version>1.5.4</orika-core.version>
+    </properties>
+
+    <modules>
+        <module>quartz-lite-spring-boot-autoconfigure</module>
+        <module>quartz-lite-spring-boot-starter</module>
+        <module>quartz-lite-spring-boot-starter-test</module>
+    </modules>
+
+    <dependencyManagement>
+
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--  添加其他全局依赖管理到这里，submodule默认不引入这些依赖，需要显式的指定  -->
+            <dependency>
+                <groupId>com.leigq</groupId>
+                <artifactId>quartz-lite-spring-boot-autoconfigure</artifactId>
+                <version>${quartz-lite-spring-boot-starter.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.leigq</groupId>
+                <artifactId>quartz-lite-spring-boot-starter</artifactId>
+                <version>${quartz-lite-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!-- druid数据库连接池 -->
+            <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid-spring-boot.version}</version>
+            </dependency>
+
+            <!-- MybatisPlus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>2.0.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>3.2.0</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>ma.glasnost.orika</groupId>
+                <artifactId>orika-core</artifactId>
+                <version>${orika-core.version}</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+</project>

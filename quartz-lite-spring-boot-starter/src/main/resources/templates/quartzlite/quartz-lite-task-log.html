@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Quartz任务管理</title>
+    <script src="/static/quartzlite/js/vue.js"></script>
+    <script src="/static/quartzlite/js/vue-resource.js"></script>
+    <!-- 引入样式 -->
+    <link href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="log">
+    <div>
+        <el-table :data="sysTaskLogList" border stripe style="width: 100%">
+            <el-table-column
+                    label=""
+                    prop="id"
+                    show-overflow-tooltip
+                    sortable
+                    width="100">
+            </el-table-column>
+
+            <el-table-column
+                    label="任务名"
+                    prop="taskName"
+                    show-overflow-tooltip
+                    sortable
+                    width="150">
+            </el-table-column>
+
+            <el-table-column
+                    label="执行时间"
+                    prop="execDate"
+                    show-overflow-tooltip
+                    sortable
+                    width="300">
+            </el-table-column>
+
+            <el-table-column
+                    align="center"
+                    label="执行结果" prop="execResult"
+                    sortable
+                    width="150">
+                <template slot-scope="scope">
+                    <div>{{scope.row.execResult === -1 ? '执行中' : scope.row.execResult === 1 ? '成功' : '失败'}}</div>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    label="成功或异常信息"
+                    prop="execResultText"
+                    show-overflow-tooltip
+                    sortable
+                    width="1200">
+                <template slot-scope="scope">
+                    <el-input auto-complete="off" autosize disable type="textarea"
+                              v-model="scope.row.execResultText"></el-input>
+                </template>
+            </el-table-column>
+        </el-table>
+
+        <div align="center">
+            <el-pagination
+                    :current-page="currentPage"
+                    :page-size="pageSize"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :total="totalCount"
+                    @current-change="handleCurrentChange"
+                    @size-change="handleSizeChange"
+                    layout="total, sizes, prev, pager, next, jumper">
+            </el-pagination>
+        </div>
+    </div>
+
+</div>
+
+<footer align="center">
+    <p>&copy; Quartz 任务管理</p>
+</footer>
+
+<script>
+    Vue.http.headers.common['language'] = 'en';
+    var vue = new Vue({
+        el: "#log",
+        data: {
+            //表格当前页数据
+            sysTaskLogList: [],
+
+            //请求的URL
+            url: 'logs',
+
+            //默认每页数据量
+            pageSize: 10,
+
+            //当前页码
+            currentPage: 1,
+
+            //查询的页码
+            start: 1,
+
+            //默认数据总数
+            totalCount: 1000,
+        },
+        mounted() {
+
+        },
+        methods: {
+
+            // 提醒通知
+            notifyWarning(msg) {
+                this.$notify({
+                    title: '警告',
+                    message: msg,
+                    type: 'warning'
+                });
+            },
+
+            // 成功通知
+            notifySuccess(msg) {
+                this.$notify({
+                    title: '成功',
+                    message: msg,
+                    type: 'success'
+                });
+            },
+
+            // 失败通知
+            notifyError(msg) {
+                this.$notify.error({
+                    title: '错误',
+                    message: msg,
+                });
+            },
+
+            getUrlKey(name, url) {
+                return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(url) || [, ""])[1].replace(/\+/g, '%20')) || null
+            },
+
+            initData(pageNum, pageSize) {
+                var url = window.location.href
+                const taskId = this.getUrlKey('taskId', url);
+
+                this.$http.get('logs/' + taskId + '/' + pageNum + '/' + pageSize).then(function (res) {
+                    var data = res.body.data;
+                    var meta = res.body.meta;
+                    switch (meta.code) {
+                        case 0:
+                            this.sysTaskLogList = data.records;
+                            this.totalCount = data.total;
+                            break;
+                        case 1000:
+                            // 跳转至登录页面
+                            window.location.href = "login.html";
+                            break;
+                        default:
+                            this.notifyWarning(meta.msg);
+                            break;
+                    }
+                }, function () {
+                    this.notifyError(res.body.meta.msg);
+                });
+            },
+
+            //打开新页面
+            windowOpen: function (url) {
+                window.open(url, "_blank");
+            },
+
+            //每页显示数据量变更
+            handleSizeChange: function (val) {
+                this.pageSize = val;
+                this.initData(this.currentPage, this.pageSize);
+            },
+
+            //页码变更
+            handleCurrentChange: function (val) {
+                this.currentPage = val;
+                this.initData(this.currentPage, this.pageSize);
+            },
+        },
+    });
+
+    //载入数据
+    vue.initData(vue.currentPage, vue.pageSize);
+</script>
+</body>
+</html>
