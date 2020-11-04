@@ -6,23 +6,16 @@
 	<parent>
 		<groupId>com.leigq</groupId>
 		<artifactId>quartz-lite-starter</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<!-- Auto-Configure Module (自动配置模块) 是包含自动配置类的 Maven 或 Gradle 模块。通过这种方式，
 	我们可以构建可以自动贡献于应用程序上下文的模块，以及添加某个特性或提供对某个外部库的访问 -->
 	<artifactId>quartz-lite-spring-boot-autoconfigure</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>quartz-lite-spring-boot-autoconfigure</name>
 	<description>Quartz-Lite自动配置模块</description>
 	<url>https://gitee.com/leiguoqing/quartz-lite-starter/tree/master/quartz-lite-spring-boot-autoconfigure</url>
-
-	<properties>
-		<java.version>1.8</java.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
 
 	<dependencies>
 		<!-- spring-boot-autoconfigure 自动装载依赖 -->

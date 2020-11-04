@@ -12,7 +12,7 @@
 
     <groupId>com.leigq</groupId>
     <artifactId>quartz-lite-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>quartz-lite-starter-parent</name>
     <description>Quartz Lite Starter project for Spring Boot</description>
@@ -21,7 +21,7 @@
     <properties>
         <java.version>1.8</java.version>
         <spring-boot.version>2.2.9.RELEASE</spring-boot.version>
-        <quartz-lite-spring-boot-starter.version>0.0.1-SNAPSHOT</quartz-lite-spring-boot-starter.version>
+        <quartz-lite-spring-boot-starter.version>1.0.0</quartz-lite-spring-boot-starter.version>
         <druid-spring-boot.version>1.1.10</druid-spring-boot.version>
         <mybatis-plus-boot-starter.version>3.2.0</mybatis-plus-boot-starter.version>
         <guava.version>28.2-jre</guava.version>
@@ -95,17 +95,5 @@
                 <version>${orika-core.version}</version>
             </dependency>
         </dependencies>
-
     </dependencyManagement>
-
-    <distributionManagement>
-        <repository>
-            <id>open-cloud-releases</id>
-            <url>http://39.106.187.125:8081/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>open-cloud-snapshots</id>
-            <url>http://39.106.187.125:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>
