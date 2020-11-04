@@ -1,6 +1,9 @@
 package com.leigq.quartzlite.autoconfigure.configure;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
+import com.baomidou.mybatisplus.core.parser.ISqlParser;
+import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.leigq.quartzlite.autoconfigure.properties.QuartzLiteProperties;
 import com.leigq.quartzlite.autoconfigure.util.RsaCoder;
 import ma.glasnost.orika.MapperFactory;
@@ -17,6 +20,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Quartz-Lite自动装配
@@ -29,6 +34,23 @@ import java.security.spec.InvalidKeySpecException;
 @EnableConfigurationProperties(QuartzLiteProperties.class)
 @Configuration
 public class QuartzLiteAutoConfig {
+	/**
+	 * MP 分页插件
+	 * @author ：LeiGQ <br>
+	 * @date ：2019-06-14 10:43 <br>
+	 * <p>
+	 */
+	@Bean
+	@ConditionalOnMissingBean(value = PaginationInterceptor.class)
+	public PaginationInterceptor paginationInterceptor() {
+		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+		List<ISqlParser> sqlParserList = new ArrayList<>();
+		// 攻击 SQL 阻断解析器、加入解析链 作用！阻止恶意的全表更新删除
+		sqlParserList.add(new BlockAttackSqlParser());
+		paginationInterceptor.setSqlParserList(sqlParserList);
+		return paginationInterceptor;
+	}
+
 
 	/**
 	 * 注入 DefaultMapperFactory，方便在使用的地方直接注入
