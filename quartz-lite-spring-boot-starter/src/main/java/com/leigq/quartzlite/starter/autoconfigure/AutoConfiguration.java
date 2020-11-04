@@ -15,6 +15,7 @@ import ma.glasnost.orika.MapperFactory;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -85,6 +86,7 @@ public class AutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(EmailSender.class)
+	@ConditionalOnBean(value = JavaMailSender.class)
 	public EmailSender emailSender(JavaMailSender javaMailSender) {
 		final EmailSender emailSender = new EmailSender(javaMailSender);
 		log.info("emailSender bean init [{}]", emailSender);

@@ -75,14 +75,6 @@
                 <version>${quartz-lite-spring-boot-starter.version}</version>
             </dependency>
 
-            <!-- druid数据库连接池 -->
-            <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid-spring-boot.version}</version>
-            </dependency>
-
             <!-- MybatisPlus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
