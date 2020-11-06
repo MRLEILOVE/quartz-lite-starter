@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 public class AutoConfiguration {
 
 	public AutoConfiguration(QuartzLiteBanner quartzLiteBanner) {
+		// 打印 Quartz-Lite 的 Banner
 		quartzLiteBanner.printBanner();
 	}
 
