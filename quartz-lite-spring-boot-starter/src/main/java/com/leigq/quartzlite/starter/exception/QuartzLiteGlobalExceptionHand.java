@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
  * @date 2019-05-14 17:09 <br>
  */
 @RestControllerAdvice
-public class GlobalExceptionHand {
+public class QuartzLiteGlobalExceptionHand {
 
-    private final Logger log = LoggerFactory.getLogger(GlobalExceptionHand.class);
+    private final Logger log = LoggerFactory.getLogger(QuartzLiteGlobalExceptionHand.class);
 
     /**
      * 自定义业务异常处理

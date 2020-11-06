@@ -7,7 +7,7 @@ import com.leigq.quartzlite.starter.bean.job.BaseTaskExecute;
 import com.leigq.quartzlite.starter.bean.vo.AddSysTaskVO;
 import com.leigq.quartzlite.starter.bean.vo.SysTaskListVO;
 import com.leigq.quartzlite.starter.bean.vo.UpdateSysTaskVO;
-import com.leigq.quartzlite.starter.exception.GlobalExceptionHand;
+import com.leigq.quartzlite.starter.exception.QuartzLiteGlobalExceptionHand;
 import com.leigq.quartzlite.starter.service.SysTaskService;
 import com.leigq.quartzlite.starter.util.SpringContextHolder;
 import com.leigq.quartzlite.starter.util.ValidUtils;
@@ -55,7 +55,7 @@ public class SysTaskController {
 	 */
 	@PostMapping("/tasks")
 	public Response addTask(@Valid AddSysTaskVO addSysTaskVO, BindingResult bindingResult) {
-		String msg = GlobalExceptionHand.handleBindingResult(bindingResult);
+		String msg = QuartzLiteGlobalExceptionHand.handleBindingResult(bindingResult);
 		if (StringUtils.isNotBlank(msg)) {
 			return Response.fail(msg);
 		}
@@ -80,7 +80,7 @@ public class SysTaskController {
 	 */
 	@PutMapping("/tasks")
 	public Response updateTask(@Valid UpdateSysTaskVO updateSysTaskVO, BindingResult bindingResult) {
-		String msg = GlobalExceptionHand.handleBindingResult(bindingResult);
+		String msg = QuartzLiteGlobalExceptionHand.handleBindingResult(bindingResult);
 		if (StringUtils.isNotBlank(msg)) {
 			return Response.fail(msg);
 		}

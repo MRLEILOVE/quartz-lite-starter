@@ -6,7 +6,7 @@ import com.leigq.quartzlite.autoconfigure.constant.SysUserConstant;
 import com.leigq.quartzlite.autoconfigure.properties.QuartzLiteProperties;
 import com.leigq.quartzlite.autoconfigure.util.RsaCoder;
 import com.leigq.quartzlite.starter.bean.vo.SysUserVO;
-import com.leigq.quartzlite.starter.exception.GlobalExceptionHand;
+import com.leigq.quartzlite.starter.exception.QuartzLiteGlobalExceptionHand;
 import com.leigq.quartzlite.starter.exception.ServiceException;
 import com.leigq.quartzlite.starter.util.ImageCode;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +67,7 @@ public class LoginController {
      */
     @PostMapping("/login")
     public Response login(@Valid SysUserVO sysUserVO, HttpServletRequest request, BindingResult bindingResult) {
-        String msg = GlobalExceptionHand.handleBindingResult(bindingResult);
+        String msg = QuartzLiteGlobalExceptionHand.handleBindingResult(bindingResult);
         if (StringUtils.isNotBlank(msg)) {
             return Response.fail(msg);
         }
