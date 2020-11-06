@@ -13,6 +13,10 @@ import java.util.Set;
 @ConfigurationProperties("spring.quartz")
 public class QuartzLiteProperties {
 
+	public static final String DEFAULT_LOGIN_USERNAME = "admin";
+
+	public static final String DEFAULT_LOGIN_PASSWORD = "admin";
+
 	/**
 	 * 可视化任务页面配置
 	 */
@@ -156,12 +160,12 @@ public class QuartzLiteProperties {
 		/**
 		 * 登录用户名
 		 */
-		private String loginUsername = "admin";
+		private String loginUsername = DEFAULT_LOGIN_USERNAME;
 
 		/**
 		 * 登录密码
 		 */
-		private String loginPassword = "admin";
+		private String loginPassword = DEFAULT_LOGIN_PASSWORD;
 
 		/**
 		 * Gets login username.

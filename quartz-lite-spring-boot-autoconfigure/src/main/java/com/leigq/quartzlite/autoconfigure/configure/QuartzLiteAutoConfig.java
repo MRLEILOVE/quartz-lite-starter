@@ -54,6 +54,7 @@ public class QuartzLiteAutoConfig {
 		// 攻击 SQL 阻断解析器、加入解析链 作用！阻止恶意的全表更新删除
 		sqlParserList.add(new BlockAttackSqlParser());
 		paginationInterceptor.setSqlParserList(sqlParserList);
+		log.info("init PaginationInterceptor success");
 		return paginationInterceptor;
 	}
 
@@ -66,11 +67,26 @@ public class QuartzLiteAutoConfig {
 	@Bean(name = "quartzLiteMapperFactory")
 	@ConditionalOnMissingBean(MapperFactory.class)
 	public MapperFactory getMapperFactory() {
-		return new DefaultMapperFactory.Builder().build();
+		final DefaultMapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		log.info("init mapperFactory success");
+		return mapperFactory;
 	}
 
 	public QuartzLiteAutoConfig(QuartzLiteProperties quartzLiteProperties) {
+		this.initTaskView(quartzLiteProperties);
 		this.initSecurityAuth(quartzLiteProperties);
+	}
+
+
+	private void initTaskView(QuartzLiteProperties quartzLiteProperties) {
+		QuartzLiteProperties.TaskView taskView = quartzLiteProperties.getTaskView();
+		if (Objects.isNull(taskView)) {
+			taskView = new QuartzLiteProperties.TaskView();
+			taskView.setLoginUsername(QuartzLiteProperties.DEFAULT_LOGIN_USERNAME);
+			taskView.setLoginPassword(QuartzLiteProperties.DEFAULT_LOGIN_USERNAME);
+		}
+		quartzLiteProperties.setTaskView(taskView);
+		log.info("init taskView success");
 	}
 
 
