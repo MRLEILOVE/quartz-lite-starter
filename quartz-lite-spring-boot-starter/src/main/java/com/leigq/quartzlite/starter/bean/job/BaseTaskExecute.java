@@ -11,6 +11,7 @@ import com.leigq.quartzlite.starter.util.DateUtils;
 import com.leigq.quartzlite.starter.util.EmailSender;
 import com.leigq.quartzlite.starter.util.ExceptionDetailUtils;
 import com.leigq.quartzlite.starter.util.ThreadPoolUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -33,12 +35,16 @@ public abstract class BaseTaskExecute {
 
     private final Logger log = LoggerFactory.getLogger(BaseTaskExecute.class);
     private TaskExecuteDTO taskExecuteDTO;
+
     @Autowired
     private SysTaskService sysTaskService;
+
     @Autowired
     private SysTaskLogService sysTaskLogService;
+
     @Autowired
     private QuartzLiteProperties quartzLiteProperties;
+
     @Autowired
     private EmailSender emailSender;
 
@@ -121,17 +127,27 @@ public abstract class BaseTaskExecute {
      * @param e the e
      */
     private void sendEmail(Exception e) {
-        if (!quartzLiteProperties.getMail().getEnable()) {
+        final QuartzLiteProperties.Mail mail = quartzLiteProperties.getMail();
+        if (Objects.isNull(mail)) {
             return;
         }
-        final Set<String> receiveUsername = quartzLiteProperties.getMail().getReceiveUsername();
+        if (!mail.getEnable()) {
+            return;
+        }
+        final String sendEmailForm = mail.getSendEmailForm();
+        if (StringUtils.isBlank(sendEmailForm)) {
+            log.warn("请在 application.yml 中配置 spring.quartz.mail.sendEmailForm 属性.........");
+            return;
+        }
+        final Set<String> receiveUsername = mail.getSendEmailTo();
         if (CollectionUtils.isEmpty(receiveUsername)) {
+            log.warn("请在 application.yml 中配置 spring.quartz.mail.receiveUsername 属性.........");
             return;
         }
         final String errorMsg = String.format("任务：[ %s ] 执行异常：", taskExecuteDTO.getTaskName());
         final String[] usernames = receiveUsername.toArray(new String[0]);
 
-        ThreadPoolUtils.execute(() -> emailSender.sendSimpleMail("任务执行异常", errorMsg + ExceptionDetailUtils.getThrowableDetail(e), usernames));
+        ThreadPoolUtils.execute(() -> emailSender.sendSimpleMail(sendEmailForm, "任务执行异常", errorMsg + ExceptionDetailUtils.getThrowableDetail(e), usernames));
     }
 
     /**
