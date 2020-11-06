@@ -92,9 +92,11 @@
             },
 
             // 公钥
-            publicKey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCV+cJIYadGdhQc84MlxsCOTZuyaeKAwImBkY23j4PdVaXh/8bRaz/KXI6V1ArgO1Q2vrDc177xfXVNgQZQz2SIApdJtXZzn/shZ73kT5xXqsUxE4L0bg9gF5IJ259ggQzG8S+OmzfJB4SUOrXvwIe8vJJXsHdxD136A0RGezC8QwIDAQAB',
+            publicKey: '',
         },
         mounted() {
+            // 初始公钥
+            this.getPubKey();
         },
         methods: {
             // 提醒通知
@@ -123,6 +125,20 @@
                 });
             },
 
+            // 获取公钥
+            getPubKey() {
+                this.$http.get('/quartz-lite/user/pubKey').then(function (res) {
+                    var body = res.body;
+                    const meta = body.meta;
+                    if (meta.code === 0) {
+                        this.publicKey = body.data;
+                    } else {
+                        this.notifyWarning(meta.msg);
+                    }
+                }, function () {
+                    this.notifyError(res.body.meta.msg);
+                });
+            },
 
             // 登录
             login() {

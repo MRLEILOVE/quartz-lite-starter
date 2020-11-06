@@ -37,7 +37,7 @@ public class MvcAutoConfig implements WebMvcConfigurer {
 				// 添加拦截规则，先把所有路径都加入拦截，再一个个排除
 				.addPathPatterns("/quartz-lite/**")
 				// 排除拦截，表示该路径不用拦截
-				.excludePathPatterns("/quartz-lite/user/login", "/quartz-lite/login.html", "/quartz-lite/user/imgCode", "/templates/quartzlite/**", "/static/quartzlite/**");
+				.excludePathPatterns("/quartz-lite/user/login", "/quartz-lite/login.html", "/quartz-lite/user/imgCode", "/quartz-lite/user/pubKey", "/templates/quartzlite/**", "/static/quartzlite/**");
 	}
 
 	/**

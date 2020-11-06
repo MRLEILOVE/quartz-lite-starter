@@ -99,8 +99,9 @@ public class LoginController {
             return Response.fail("验证码错误");
         }
 
-        boolean usernameIsTrue = Objects.equals(username, quartzLiteProperties.getTaskView().getLoginUsername());
-        boolean passwordIsTrue = Objects.equals(password, quartzLiteProperties.getTaskView().getLoginPassword());
+        final QuartzLiteProperties.TaskView taskView = quartzLiteProperties.getTaskView();
+        boolean usernameIsTrue = Objects.equals(username, taskView.getLoginUsername());
+        boolean passwordIsTrue = Objects.equals(password, taskView.getLoginPassword());
         if (!usernameIsTrue || !passwordIsTrue) {
             return Response.fail("用户名或密码错误，请重试");
         }
@@ -158,6 +159,21 @@ public class LoginController {
         try (ServletOutputStream sos = response.getOutputStream()) {
             ImageIO.write(image, "jpeg", sos);
         }
+    }
+
+
+    /**
+     * 获取公钥
+     *
+     * @return the pub key
+     */
+    @GetMapping("/pubKey")
+    public Response getPubKey() {
+        final String pubKeyBase64 = RsaCoder.PUB_KEY_BASE64;
+        if (StringUtils.isBlank(pubKeyBase64)) {
+            return Response.fail("获取公钥为空");
+        }
+        return Response.success("获取公钥成功", pubKeyBase64);
     }
 
 
