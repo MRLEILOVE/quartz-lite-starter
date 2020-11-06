@@ -17,11 +17,13 @@ import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Quartz-Lite自动装配
@@ -34,8 +36,12 @@ import java.util.List;
 @EnableConfigurationProperties(QuartzLiteProperties.class)
 @Configuration
 public class QuartzLiteAutoConfig {
+
+	Logger log = LoggerFactory.getLogger(QuartzLiteAutoConfig.class);
+
 	/**
 	 * MP 分页插件
+	 *
 	 * @author ：LeiGQ <br>
 	 * @date ：2019-06-14 10:43 <br>
 	 * <p>
@@ -64,17 +70,43 @@ public class QuartzLiteAutoConfig {
 	}
 
 	public QuartzLiteAutoConfig(QuartzLiteProperties quartzLiteProperties) {
-		// 初始化 RSACoder 中的公钥、私钥
-		RsaCoder.PUB_KEY_BASE64 = quartzLiteProperties.getSecurity().getAuth().getPubKey();
-		Logger log = LoggerFactory.getLogger(QuartzLiteAutoConfig.class);
+		this.initSecurityAuth(quartzLiteProperties);
+	}
+
+
+	private void initSecurityAuth(QuartzLiteProperties quartzLiteProperties) {
+		final QuartzLiteProperties.Security security = quartzLiteProperties.getSecurity();
+		if (Objects.isNull(security)) {
+			return;
+		}
+		final QuartzLiteProperties.Security.Auth auth = security.getAuth();
+		if (Objects.isNull(auth)) {
+			return;
+		}
+		// 初始化用户配置的公钥
+		this.initPubKey(auth.getPubKey());
+		// 初始化用户配置的私钥
+		this.initPriKey(auth.getPriKey());
+	}
+
+	private void initPubKey(String pubKey) {
+		if (StringUtils.isEmpty(pubKey)) {
+			return;
+		}
+		RsaCoder.PUB_KEY_BASE64 = pubKey;
 		try {
 			RsaCoder.PUB_KEY = RsaCoder.restorePubKey(RsaCoder.PUB_KEY_BASE64);
 			log.info("init PUB_KEY success");
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			log.error("init PUB_KEY error：", e);
 		}
+	}
 
-		RsaCoder.PRI_KEY_BASE64 = quartzLiteProperties.getSecurity().getAuth().getPriKey();
+	private void initPriKey(String priKey) {
+		if (StringUtils.isEmpty(priKey)) {
+			return;
+		}
+		RsaCoder.PRI_KEY_BASE64 = priKey;
 		try {
 			RsaCoder.PRI_KEY = RsaCoder.restorePriKey(RsaCoder.PRI_KEY_BASE64);
 			log.info("init PRI_KEY success");
