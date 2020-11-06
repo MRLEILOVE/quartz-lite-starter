@@ -94,9 +94,14 @@ public class QuartzLiteProperties {
 		private boolean enable = false;
 
 		/**
+		 * 发送邮件的邮箱
+		 */
+		private String sendEmailForm;
+
+		/**
 		 * 接受异常信息的邮箱
 		 */
-		private Set<String> receiveUsername;
+		private Set<String> sendEmailTo;
 
 		/**
 		 * Gets enable.
@@ -116,22 +121,30 @@ public class QuartzLiteProperties {
 			this.enable = enable;
 		}
 
+		public String getSendEmailForm() {
+			return sendEmailForm;
+		}
+
+		public void setSendEmailForm(String sendEmailForm) {
+			this.sendEmailForm = sendEmailForm;
+		}
+
 		/**
 		 * Gets receive username.
 		 *
 		 * @return the receive username
 		 */
-		public Set<String> getReceiveUsername() {
-			return receiveUsername;
+		public Set<String> getSendEmailTo() {
+			return sendEmailTo;
 		}
 
 		/**
 		 * Sets receive username.
 		 *
-		 * @param receiveUsername the receive username
+		 * @param sendEmailTo the receive username
 		 */
-		public void setReceiveUsername(Set<String> receiveUsername) {
-			this.receiveUsername = receiveUsername;
+		public void setSendEmailTo(Set<String> sendEmailTo) {
+			this.sendEmailTo = sendEmailTo;
 		}
 	}
 
