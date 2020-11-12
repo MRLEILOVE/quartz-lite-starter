@@ -312,6 +312,105 @@ COMMIT;
 </repositories>
 ```
 
+当然，如果你不想直接在项目的 pom.xml 文件里面加 `<repositories>`，也可以在 Maven setting.xml 中加，就像下面这样：
+
+```xml
+<profiles>
+    <profile>
+          <id>myProfile</id>
+          <!-- 激活这个配置 -->
+          <activation>
+              <activeByDefault>true</activeByDefault>
+              <jdk>1.8</jdk>
+          </activation>
+
+          <!-- 全局属性配置，让所有 maven 项目新建时默认都是 java8、UTF-8 -->
+          <properties>
+              <jdk.version>1.8</jdk.version>
+              <maven.compiler.source>1.8</maven.compiler.source>
+              <maven.compiler.target>1.8</maven.compiler.target>
+              <encoding>UTF-8</encoding>
+          </properties>
+          
+          <!--依赖仓库的一些配置，其主要作用是用来覆写 nexus 仓库的一些策略-->
+          <repositories>
+
+              <repository>
+                  <id>aliyunRepositories</id>
+                  <name>aliyunRepositories</name>
+                  <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+                  <!-- 允许下载 releases 类型依赖 -->
+                  <releases><enabled>true</enabled></releases>
+                  <!-- 允许下载 snapshots 类型依赖 -->
+                  <snapshots><enabled>true</enabled></snapshots>
+              </repository>
+      
+              <repository>
+                  <id>jitpack.io</id>
+                  <name>jitpackRepositories</name>
+                  <url>https://jitpack.io</url>
+                  <!-- 允许下载 releases 类型依赖 -->
+                  <releases><enabled>true</enabled></releases>
+                  <!-- 允许下载 snapshots 类型依赖 -->
+                  <snapshots><enabled>true</enabled></snapshots>
+              </repository>
+      
+          </repositories>
+          
+          <!--插件仓库配置-->
+          <pluginRepositories>
+    
+            <pluginRepository>
+                <id>aliyunPluginRepositories</id>
+                <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+                <!-- 允许下载 releases 类型依赖 -->
+                <releases><enabled>true</enabled></releases>
+                <!-- 允许下载 snapshots 类型依赖 -->
+                <snapshots><enabled>true</enabled></snapshots>
+            </pluginRepository>
+      
+            <pluginRepository>
+                <id>jitpack.io</id>
+                <url>https://jitpack.io</url>
+                <!-- 允许下载 releases 类型依赖 -->
+                <releases><enabled>true</enabled></releases>
+                <!-- 允许下载 snapshots 类型依赖 -->
+                <snapshots><enabled>true</enabled></snapshots>
+            </pluginRepository>
+
+          </pluginRepositories>
+    </profile>
+</profiles>
+```
+
+Maven settings.xml 中的 `<repositories>` 标签 和 pom.xml 中不一样，不能直接放在外面，需要放在 `<profiles>` 标签里面。
+
+__重点来了__：如果你发现你无法获取到 Jar 包，很有可能是你的 Maven setting.xml 配置有问题。
+
+你的 setting.xml 中是否有这样的配置？
+
+```xml
+<mirror>
+    <id>nexus-aliyun</id>
+    <mirrorOf>*</mirrorOf>
+    <name>aliyun</name>
+    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+</mirror>
+```
+
+如果是，那就是上面的 `<mirrorOf>` 配置出了问题，需要改成：
+
+```xml
+<mirror>
+    <id>nexus-aliyun</id>
+    <mirrorOf>*,!jitpack</mirrorOf>
+    <name>aliyun</name>
+    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+</mirror>
+``` 
+
+原因：如果把 `mirrorOf` 配置成 * ，那么所有的远程仓库都会阿里云上面找，但是 Quartz-Lite 的 Jar 是通过 jitpack 管理的，阿里云上面没有，所有要将 jitpack 排除掉，这样就能正常下载到 Jar 包了。
+
 2、配置数据库
 
 在 `application.yml` 中添加以下配置：
