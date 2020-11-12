@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/quartz-lite")
-public class SysTaskLogController {
+public class QuartzLiteSysTaskLogController {
 
 	private final SysTaskLogService sysTaskLogService;
 
-	public SysTaskLogController(SysTaskLogService sysTaskLogService) {
+	public QuartzLiteSysTaskLogController(SysTaskLogService sysTaskLogService) {
 		this.sysTaskLogService = sysTaskLogService;
 	}
 

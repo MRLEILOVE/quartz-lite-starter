@@ -44,7 +44,7 @@ import java.util.Objects;
 @Slf4j
 @RequestMapping("/quartz-lite/user")
 @RestController
-public class LoginController {
+public class QuartzLiteLoginController {
 
     /**
      * The Quartz properties.
@@ -56,7 +56,7 @@ public class LoginController {
      *
      * @param quartzLiteProperties the quartz properties
      */
-    public LoginController(QuartzLiteProperties quartzLiteProperties) {
+    public QuartzLiteLoginController(QuartzLiteProperties quartzLiteProperties) {
         this.quartzLiteProperties = quartzLiteProperties;
     }
 

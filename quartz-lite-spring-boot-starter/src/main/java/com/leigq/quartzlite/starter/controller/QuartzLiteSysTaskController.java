@@ -9,7 +9,7 @@ import com.leigq.quartzlite.starter.bean.vo.SysTaskListVO;
 import com.leigq.quartzlite.starter.bean.vo.UpdateSysTaskVO;
 import com.leigq.quartzlite.starter.exception.QuartzLiteGlobalExceptionHand;
 import com.leigq.quartzlite.starter.service.SysTaskService;
-import com.leigq.quartzlite.starter.util.SpringContextHolder;
+import com.leigq.quartzlite.starter.util.QuartzLiteSpringContextHolder;
 import com.leigq.quartzlite.starter.util.ValidUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -31,14 +31,14 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/quartz-lite")
-public class SysTaskController {
+public class QuartzLiteSysTaskController {
 
 	/**
 	 * 系统自己创建的任务表服务
 	 */
 	private final SysTaskService sysTaskService;
 
-	public SysTaskController(SysTaskService sysTaskService) {
+	public QuartzLiteSysTaskController(SysTaskService sysTaskService) {
 		this.sysTaskService = sysTaskService;
 	}
 
@@ -221,7 +221,7 @@ public class SysTaskController {
 		}
 		try {
 			// 获取自定义任务实例，自定义任务全部继承 BaseTaskExecute
-			final Object bean = SpringContextHolder.getBean(clazz);
+			final Object bean = QuartzLiteSpringContextHolder.getBean(clazz);
 			if (!(bean instanceof BaseTaskExecute)) {
 				ValidUtils.throwException(String.format("请确保执行类继承%s类！", BaseTaskExecute.class.getSimpleName()));
 			}

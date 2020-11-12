@@ -4,7 +4,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2016年11月27日 下午3:32:11
  */
 @Component
-public class SpringContextHolder implements ApplicationContextAware {
+public class QuartzLiteSpringContextHolder implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
@@ -25,7 +24,7 @@ public class SpringContextHolder implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
-        SpringContextHolder.applicationContext = applicationContext;
+        QuartzLiteSpringContextHolder.applicationContext = applicationContext;
     }
 
     @SuppressWarnings("unchecked")
@@ -40,7 +39,7 @@ public class SpringContextHolder implements ApplicationContextAware {
     }
 
     private static void assertApplicationContext() {
-        if (SpringContextHolder.applicationContext == null) {
+        if (QuartzLiteSpringContextHolder.applicationContext == null) {
             throw new RuntimeException("applicaitonContext属性为null,请检查是否注入了SpringContextHolder!");
         }
     }

@@ -4,7 +4,7 @@ package com.leigq.quartzlite.starter.bean.job;
 import com.leigq.quartzlite.starter.bean.dto.AddQuartzJobDTO;
 import com.leigq.quartzlite.starter.bean.dto.TaskExecuteDTO;
 import com.leigq.quartzlite.starter.exception.ServiceException;
-import com.leigq.quartzlite.starter.util.SpringContextHolder;
+import com.leigq.quartzlite.starter.util.QuartzLiteSpringContextHolder;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -30,7 +30,7 @@ public class BaseJob implements Job {
             // 获取自定义任务的类
             Class<?> clazz = Class.forName(quartzJobDetails.getTaskClass());
             // 获取自定义任务实例，自定义任务全部继承 TaskExecute
-            BaseTaskExecute baseTaskExecute = (BaseTaskExecute) SpringContextHolder.getBean(clazz);
+            BaseTaskExecute baseTaskExecute = (BaseTaskExecute) QuartzLiteSpringContextHolder.getBean(clazz);
 
             TaskExecuteDTO taskExecuteDTO = TaskExecuteDTO.builder().build();
             BeanUtils.copyProperties(quartzJobDetails, taskExecuteDTO);

@@ -9,8 +9,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 /**
  * 邮件发送工具
  * <p>
@@ -59,7 +57,7 @@ public class EmailSender {
 
 	private JavaMailSender getJavaMailSender() {
 		try {
-			return SpringContextHolder.getBean(JavaMailSenderImpl.class);
+			return QuartzLiteSpringContextHolder.getBean(JavaMailSenderImpl.class);
 		} catch (NoSuchBeanDefinitionException e) {
 			throw new IllegalArgumentException("使用 Quartz-Lite 的邮件功能时请先配置 spring-boot-starter-mail 的相关配置，Quartz-Lite 的邮件功能依赖于此", e);
 		}
