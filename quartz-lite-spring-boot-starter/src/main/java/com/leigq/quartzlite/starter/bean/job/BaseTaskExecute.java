@@ -136,16 +136,16 @@ public abstract class BaseTaskExecute {
         }
         final String sendEmailForm = mail.getSendEmailForm();
         if (StringUtils.isBlank(sendEmailForm)) {
-            log.warn("请在 application.yml 中配置 spring.quartz.mail.sendEmailForm 属性.........");
+            log.warn("请在 application.yml 中配置 spring.quartz.mail.send-email-form 属性.........");
             return;
         }
-        final Set<String> receiveUsername = mail.getSendEmailTo();
-        if (CollectionUtils.isEmpty(receiveUsername)) {
-            log.warn("请在 application.yml 中配置 spring.quartz.mail.receiveUsername 属性.........");
+        final Set<String> sendEmailTo = mail.getSendEmailTo();
+        if (CollectionUtils.isEmpty(sendEmailTo)) {
+            log.warn("请在 application.yml 中配置 spring.quartz.mail.send-email-to 属性.........");
             return;
         }
         final String errorMsg = String.format("任务：[ %s ] 执行异常：", taskExecuteDTO.getTaskName());
-        final String[] usernames = receiveUsername.toArray(new String[0]);
+        final String[] usernames = sendEmailTo.toArray(new String[0]);
 
         ThreadPoolUtils.execute(() -> emailSender.sendSimpleMail(sendEmailForm, "任务执行异常", errorMsg + ExceptionDetailUtils.getThrowableDetail(e), usernames));
     }
