@@ -1,7 +1,7 @@
 
 <p align="center">
 <a href='https://gitee.com/leiguoqing/quartz-lite-starter'>
-    <img alt="Fork me on Gitee" src="https://gitee.com/leiguoqing/springboot-quartz-lite/widgets/widget_4.svg">
+    <img alt="Fork me on Gitee" src="https://gitee.com/oschina/gitee-opensource-guide/widgets/widget_6.svg?color=d9d177">
 </a>
 </p>
 
