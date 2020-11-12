@@ -18,6 +18,25 @@
 	<description>Quartz-Lite Starter，项目中引入此Jar即可</description>
 	<url>https://gitee.com/leiguoqing/quartz-lite-starter/tree/master/quartz-lite-spring-boot-starter</url>
 
+
+	<!-- 许可证信息 -->
+	<licenses>
+        <!-- Apache许可证 -->
+		<license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+	<!-- 开发者信息 -->
+	<developers>
+        <developer>
+            <name>leigq</name>
+            <email>9191789784@qq.com</email>
+            <url>https://gitee.com/leiguoqing/</url>
+        </developer>
+    </developers>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
