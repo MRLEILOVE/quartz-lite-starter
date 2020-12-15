@@ -1,11 +1,8 @@
 package com.leigq.quartzlite.starter.banner;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Banner
@@ -16,6 +13,9 @@ import java.util.Properties;
 @Component
 @Slf4j
 public class QuartzLiteBanner {
+
+	@Value("${quartz.lite.version}")
+	private String version;
 
 	private static final String BANNER_MSG = "\n" +
 			"   ____                   _       _      _ _       \n" +
@@ -30,17 +30,8 @@ public class QuartzLiteBanner {
 	 */
 	public void printBanner() {
 		System.out.println(BANNER_MSG);
-		System.out.printf("\t\t\t\t\t\t\t\t\t\t\t%s", getVersion());
+		System.out.print(" ::Quartz Lite::");
+		System.out.printf("\t\tversion: %s    by: %s", version, "leigq");
 		System.out.println();
-	}
-
-	private String getVersion() {
-		try {
-			final Properties properties = PropertiesLoaderUtils.loadAllProperties("app.properties");
-			return properties.getProperty("app.version");
-		} catch (IOException e) {
-			log.error("app.properties load error");
-		}
-		return null;
 	}
 }
