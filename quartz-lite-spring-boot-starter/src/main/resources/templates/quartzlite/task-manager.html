@@ -14,9 +14,8 @@
 
     <style>
         #top {
-            background: #20A0FF;
-            padding: 5px;
-            overflow: hidden
+            margin-left: 10px;
+            margin-top: 10px;
         }
     </style>
 
@@ -25,14 +24,14 @@
 <div id="task">
     <template>
         <div id="top">
-            <el-button @click="refresh">刷新</el-button>
-            <el-button @click="showAddTaskForm">添加</el-button>
-            <el-button @click="windowOpen('http://cron.qqe2.com')">在线Cron表达式生成
+            <el-button icon="el-icon-refresh" size="small" round type="success" plain  @click="refresh">刷新</el-button>
+            <el-button icon="el-icon-circle-plus"size="small" round type="primary" plain @click="showAddTaskForm">添加</el-button>
+            <el-button icon="el-icon-date" round  size="small" type="info" @click="windowOpen('http://cron.qqe2.com')">在线Cron表达式生成
             </el-button>
 
-            <div style="position:absolute; right: 130px; top: 13px">
-                <span style="color: white">自动刷新时间：</span>
-                <el-select @change="autoRefreshTime" placeholder="自动刷新时间" size="3" v-model="value">
+            <div style="position:absolute; right: 127px; top: 9px">
+                <span style="font-size: 16px; color: #909399">自动刷新时间：</span>
+                <el-select style="width: 100px" @change="autoRefreshTime" placeholder="自动刷新时间" size="small" v-model="value">
                     <el-option
                             :key="item.value"
                             :label="item.label"
@@ -42,13 +41,17 @@
                 </el-select>
             </div>
 
-            <el-button @click="logout" style="position:absolute; right: 20px; top: 13px" type="danger">退出登录</el-button>
+            <el-button size="small" @click="logout" style="position:absolute; right: 20px;" round type="danger" plain icon="el-icon-s-home">退出登录</el-button>
+
+            <div style="display: flex; justify-content: center; margin-top: -38px">
+                <img style="width: 130px;" src="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/logo.png">
+            </div>
+
         </div>
     </template>
-    <br/>
-
+    <br>
     <template>
-        <div style="margin-top:15px">
+        <div style="margin-top: -17px; margin-left: 10px;">
             <el-table height="800" :data="sysTaskList" border ref="testTable" stripe>
                 <el-table-column
                         label="任务ID"
@@ -154,36 +157,42 @@
                 <el-table-column align="center" fixed="right" label="操作" width="460">
                     <template scope="scope">
                         <el-button
+                                plain
                                 @click="handlePauseOrResumeOrDeleteOrExecute(scope.$index, scope.row, 4)"
                                 size="small"
                                 type="success">立即执行
                         </el-button>
 
                         <el-button
+                                plain
                                 @click="handlePauseOrResumeOrDeleteOrExecute(scope.$index, scope.row, 1)"
                                 size="small"
                                 type="warning">暂停
                         </el-button>
 
                         <el-button
+                                plain
                                 @click="handlePauseOrResumeOrDeleteOrExecute(scope.$index, scope.row, 2)"
                                 size="small"
                                 type="info">恢复
                         </el-button>
 
                         <el-button
+                                plain
                                 @click="handlePauseOrResumeOrDeleteOrExecute(scope.$index, scope.row, 3)"
                                 size="small"
                                 type="danger">删除
                         </el-button>
 
                         <el-button
+                                plain
                                 @click="showUpdateTaskFrom(scope.$index, scope.row)"
                                 size="small"
                                 type="success">修改
                         </el-button>
 
                         <el-button
+                                plain
                                 @click="showTaskLogForm(scope.$index, scope.row)"
                                 size="small"
                                 type="success">日志
@@ -192,7 +201,7 @@
                 </el-table-column>
             </el-table>
 
-            <div align="center">
+            <div align="center" style="margin-top: 10px">
                 <el-pagination
                         :current-page="currentPage"
                         :page-size="pageSize"
@@ -313,11 +322,13 @@
 </div>
 
 <footer align="center">
-    <p style="font-size: 18px; color: #b6b6b7">Copyright&copy;2020-2021
+    <p style="font-size: 14px; color: #b6b6b7">
+
+        <span>Powered by leigq Quartz-Lite: 1.1.2 Copyright&copy;2020-2021</span>
+
         <a style="color: #3482f6" href="https://gitee.com/leiguoqing/quartz-lite-starter">Gitee</a> |
         <a style="color: #3482f6" href="https://github.com/MRLEILOVE/quartz-lite-starter">GitHub</a>
     </p>
-    <p style="font-size: 16px; color: #b6b6b7">Powered by leigq Quartz-Lite: 1.1.2</p>
 </footer>
 
 <script>

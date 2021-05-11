@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Quartz任务管理</title>
+    <title>Quartz任务日志</title>
     <link rel="Shortcut Icon" type="image/x-icon" href="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/quartz_lite_favicon.ico" />
     <script src="/static/quartzlite/js/vue.js"></script>
     <script src="/static/quartzlite/js/vue-resource.js"></script>
@@ -10,11 +10,29 @@
     <link href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <style>
+        #top {
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <div id="log">
-    <div>
-        <el-table height="800" :data="sysTaskLogList" border stripe style="width: 100%">
+    <template>
+        <div id="top">
+            <el-button size="small" @click="logout" style="position:absolute; right: 20px;" round type="danger" plain icon="el-icon-s-home">退出登录</el-button>
+
+            <div style="display: flex; justify-content: left; ">
+                <img style="width: 130px; margin-top: -5px" src="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/logo.png">
+            </div>
+        </div>
+    </template>
+    <br/>
+
+    <div style="margin-top: -17px; margin-left: 10px;">
+        <el-table height="800" :data="sysTaskLogList" border stripe>
             <el-table-column
                     align="center"
                     label="任务ID"
@@ -29,7 +47,7 @@
                     label="任务名"
                     prop="taskName"
                     show-overflow-tooltip
-                    width="150">
+                    width="120">
             </el-table-column>
 
             <el-table-column
@@ -38,7 +56,7 @@
                     prop="execDate"
                     show-overflow-tooltip
                     sortable
-                    width="300">
+                    width="160">
             </el-table-column>
 
             <el-table-column
@@ -54,19 +72,19 @@
             </el-table-column>
 
             <el-table-column
+                    fixed="right"
                     align="center"
                     label="成功或异常信息"
                     prop="execResultText"
                     show-overflow-tooltip
                     width="1200">
                 <template slot-scope="scope">
-                    <el-input auto-complete="off" autosize disable type="textarea"
-                              v-model="scope.row.execResultText"></el-input>
+                    <el-input auto-complete="off" autosize disable type="textarea" v-model="scope.row.execResultText"></el-input>
                 </template>
             </el-table-column>
         </el-table>
 
-        <div align="center">
+        <div align="center" style="margin-top: 10px">
             <el-pagination
                     :current-page="currentPage"
                     :page-size="pageSize"
@@ -82,11 +100,13 @@
 </div>
 
 <footer align="center">
-    <p style="font-size: 18px; color: #b6b6b7">Copyright&copy;2020-2021
+    <p style="font-size: 14px; color: #b6b6b7">
+
+        <span>Powered by leigq Quartz-Lite: 1.1.2 Copyright&copy;2020-2021</span>
+
         <a style="color: #3482f6" href="https://gitee.com/leiguoqing/quartz-lite-starter">Gitee</a> |
         <a style="color: #3482f6" href="https://github.com/MRLEILOVE/quartz-lite-starter">GitHub</a>
     </p>
-    <p style="font-size: 16px; color: #b6b6b7">Powered by leigq Quartz-Lite: 1.1.2</p>
 </footer>
 
 <script>
@@ -116,7 +136,22 @@
 
         },
         methods: {
-
+            // 登出
+            logout() {
+                this.$http.post('/quartz-lite/user/logout').then(function (res) {
+                    var body = res.body;
+                    var meta = body.meta;
+                    if (meta.code === 0) {
+                        this.notifySuccess(meta.msg);
+                        // 跳转至登录页面
+                        window.location.href = "login.html";
+                    } else {
+                        this.notifyWarning(meta.msg);
+                    }
+                }, function () {
+                    this.notifyError(res.body.meta.msg);
+                });
+            },
             // 提醒通知
             notifyWarning(msg) {
                 this.$notify({
