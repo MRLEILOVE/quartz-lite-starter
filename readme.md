@@ -19,8 +19,8 @@
     <a href="https://github.com/xuxueli/xxl-job/actions">
         <img src="https://github.com/xuxueli/xxl-job/workflows/Java%20CI/badge.svg" >
     </a>
-    <a href="https://gitee.com/leiguoqing/quartz-lite-starter/releases/1.1.2">
-        <img src="https://img.shields.io/badge/release-v1.1.2-green">
+    <a href="https://gitee.com/leiguoqing/quartz-lite-starter/releases/1.1.3">
+        <img src="https://img.shields.io/badge/release-v1.1.3-green">
     </a>
     <a href='https://spring.io/projects/spring-boot'>
         <img alt="springboot-version" src="https://img.shields.io/badge/SpringBoot-2.2.9.RELEASE-orange">
@@ -341,7 +341,7 @@ COMMIT;
     <dependency>
         <groupId>com.gitee.leiguoqing.quartz-lite-starter</groupId>
         <artifactId>quartz-lite-spring-boot-starter</artifactId>
-        <version>1.1.2</version>
+        <version>1.1.3</version>
     </dependency>
 </dependencies>
 
