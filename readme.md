@@ -4,10 +4,12 @@
     <img alt="Fork me on Gitee" src="https://gitee.com/oschina/gitee-opensource-guide/widgets/widget_6.svg?color=d9d177">
 </a>
 </p>
-
 <p align="center">
-基于Quartz的可视化任务系统
+<a href='https://mrlei.cn1.utools.club/quartz-lite/login.html'>
+    <img alt="Fork me on Gitee" src="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/logo.png">
+</a>
 </p>
+
 
 <p align="center">
 <a href='https://gitee.com/leiguoqing/springboot-quartz-lite'>springboot-quartz-lite</a> 的 starter 版本，开箱即用。
@@ -37,7 +39,46 @@
 
 ## 功能展示
 
-功能和 <a href='https://gitee.com/leiguoqing/springboot-quartz-lite'>springboot-quartz-lite</a> 一致，请移步至：<https://gitee.com/leiguoqing/springboot-quartz-lite> 查看。
+### 登录
+
+用户需要正常登录后，方可进入系统，若不登陆直接访问列表或日志页面，则会自动跳转至登录页面。每次登录有效时长为30分钟，过期后任何操作，也会跳转至登录页面。
+
+帐号、密码、验证码均使用 RSA 加密，帐号、密码、RSA公钥、私钥可在application.yml中进行配置。
+
+默认帐号、密码均为：admin。
+
+登录接口添加 `参数签名+时间戳` 机制，时间戳用于防止 DDOS 攻击，参数签名防止被抓包恶意修改参数。
+
+![](https://images.gitee.com/uploads/images/2020/0813/173640_adef7344_1425122.png)
+
+### 任务列表
+
+任务列表显示每个任务的基本信息，可对任务进行`立即执行`、`暂停`、`恢复`、`删除`、`修改`、`日志查询`操作。
+
+对于不会写 cron 表达式的同学，可以点击左上角的 `在线生成Cron` 按钮进行生成。
+
+右上角可以设置页面的自动刷新频率，默认一秒钟刷新一次。
+
+右上角可以退出登录。
+
+![](https://images.gitee.com/uploads/images/2020/0813/173640_cecbc007_1425122.png)
+
+![](https://images.gitee.com/uploads/images/2020/0813/173640_0fe7e663_1425122.png)
+
+### 任务日志
+
+任务日志页面，可以看到对应任务的`执行时间`、`执行结果`、`执行成功或异常信息`。
+
+任务的日志，按执行时间倒序排序。
+
+任务执行失败时，可以配置是否需要发送邮件到指定邮箱，后面会讲如何配置。
+
+![](https://images.gitee.com/uploads/images/2020/0813/173640_fb2754a5_1425122.png)
+
+![](https://images.gitee.com/uploads/images/2020/0813/173640_e050c54a_1425122.png)
+
+![](https://images.gitee.com/uploads/images/2020/0813/173640_1280671e_1425122.png)
+
 
 ## 使用说明
 
@@ -659,7 +700,7 @@ MyBatis 的配置几乎一样，这里就不过多赘述了。
 
 ## 演示地址
 
-<http://quartz-lite.leiguoqing.xyz/>
+<https://mrlei.cn1.utools.club/quartz-lite/login.html>
 
 - 账号：admin
 - 密码：123456
