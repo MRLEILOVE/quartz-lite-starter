@@ -700,7 +700,7 @@ MyBatis 的配置几乎一样，这里就不过多赘述了。
 
 ## 演示地址
 
-<https://mrlei.cn1.utools.club/quartz-lite/login.html>
+<https://quartz-lite.cn.utools.club>
 
 - 账号：admin
 - 密码：123456
