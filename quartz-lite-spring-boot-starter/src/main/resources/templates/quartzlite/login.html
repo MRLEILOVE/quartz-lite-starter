@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="Shortcut Icon" type="image/x-icon" href="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/quartz_lite_favicon.ico" />
-    <title>Quartz任务管理</title>
+    <title>Quartz-Lite登录</title>
     <script src="/static/quartzlite/js/vue.js"></script>
     <script src="/static/quartzlite/js/vue-resource.js"></script>
     <script src="/static/quartzlite/js/jsencrypt.min.js"></script>
@@ -16,8 +16,8 @@
 </head>
 <body>
 <div>
-    <div style="display: flex;justify-content: center; margin-top: 50px">
-        <img src="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/logo.png">
+    <div style="display: flex;justify-content: center; margin-top: 50px;">
+        <img style="width: 340px" src="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/logo.png">
     </div>
     
     <!--flex弹性盒子模型，justify-content：主抽 -->
@@ -25,30 +25,25 @@
         <el-card style="width: 350px">
             <template>
                 <div class="clearfix" slot="header">
-                    <span>登录</span>
+                    <span style="font-size: 16px; height: 11px;justify-content: center;display: flex;margin-top: -12px;">登录</span>
                 </div>
             </template>
             <template>
                 <table>
                     <tr>
-                        <td>用户名</td>
-                        <td>
-                            <el-input placeholder="请输入用户名" v-model="loginFormData.username"></el-input>
+                        <td colspan="2">
+                            <el-input prefix-icon="el-icon-user" maxlength="20" placeholder="请输入用户名" v-model="loginFormData.username"></el-input>
                         </td>
                     </tr>
                     <tr>
-                        <td>密码</td>
-                        <td>
-                            <el-input placeholder="请输入密码" type="password" v-model="loginFormData.password"></el-input>
+                        <td colspan="2">
+                            <el-input prefix-icon="el-icon-key"  maxlength="20" max placeholder="请输入密码" type="password" v-model="loginFormData.password"></el-input>
                             <!-- @keydown.enter.native="doLogin"当按下enter键的时候也会执行doLogin方法-->
                         </td>
                     </tr>
                     <tr>
-                        <td>验证码</td>
-                        <td>
-                            <el-input @keydown.enter.native="login" maxlength="4" placeholder="请输入验证码"
-                                      v-model="loginFormData.validCode">
-                            </el-input>
+                        <td colspan="2">
+                            <el-input prefix-icon="el-icon-view" @keydown.enter.native="login" maxlength="4" placeholder="请输入验证码" v-model="loginFormData.validCode"></el-input>
                         </td>
                         <td>
                             <img @click="refreshValidCode" alt="验证码" id="validCodeImg" src="/quartz-lite/user/imgCode"
@@ -72,11 +67,13 @@
 </div>
 
 <footer align="center">
-    <p style="font-size: 18px; color: #b6b6b7">Copyright&copy;2020-2021
+    <p style="font-size: 14px; color: #b6b6b7">
+
+        <span>Powered by leigq Quartz-Lite: 1.1.2 Copyright&copy;2020-2021</span>
+
         <a style="color: #3482f6" href="https://gitee.com/leiguoqing/quartz-lite-starter">Gitee</a> |
         <a style="color: #3482f6" href="https://github.com/MRLEILOVE/quartz-lite-starter">GitHub</a>
     </p>
-    <p style="font-size: 16px; color: #b6b6b7">Powered by leigq Quartz-Lite: 1.1.2</p>
 </footer>
 
 
