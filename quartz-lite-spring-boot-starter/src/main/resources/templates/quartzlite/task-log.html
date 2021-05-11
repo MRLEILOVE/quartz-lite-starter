@@ -14,24 +14,26 @@
 <body>
 <div id="log">
     <div>
-        <el-table :data="sysTaskLogList" border stripe style="width: 100%">
+        <el-table height="800" :data="sysTaskLogList" border stripe style="width: 100%">
             <el-table-column
-                    label=""
+                    align="center"
+                    label="任务ID"
                     prop="id"
                     show-overflow-tooltip
                     sortable
-                    width="100">
+                    width="90">
             </el-table-column>
 
             <el-table-column
+                    align="center"
                     label="任务名"
                     prop="taskName"
                     show-overflow-tooltip
-                    sortable
                     width="150">
             </el-table-column>
 
             <el-table-column
+                    align="center"
                     label="执行时间"
                     prop="execDate"
                     show-overflow-tooltip
@@ -41,19 +43,21 @@
 
             <el-table-column
                     align="center"
+                    align="center"
                     label="执行结果" prop="execResult"
-                    sortable
                     width="150">
                 <template slot-scope="scope">
-                    <div>{{scope.row.execResult === -1 ? '执行中' : scope.row.execResult === 1 ? '成功' : '失败'}}</div>
+                    <el-tag v-if="scope.row.execResult === -1">执行中</el-tag>
+                    <el-tag v-if="scope.row.execResult === 1" type="success">成功</el-tag>
+                    <el-tag v-if="scope.row.execResult === 0" type="danger">失败</el-tag>
                 </template>
             </el-table-column>
 
             <el-table-column
+                    align="center"
                     label="成功或异常信息"
                     prop="execResultText"
                     show-overflow-tooltip
-                    sortable
                     width="1200">
                 <template slot-scope="scope">
                     <el-input auto-complete="off" autosize disable type="textarea"
@@ -78,7 +82,11 @@
 </div>
 
 <footer align="center">
-    <p>Copyright&copy;2020-2021 基于 Quartz 的可视化任务系统</p>
+    <p style="font-size: 18px; color: #b6b6b7">Copyright&copy;2020-2021
+        <a style="color: #3482f6" href="https://gitee.com/leiguoqing/quartz-lite-starter">Gitee</a> |
+        <a style="color: #3482f6" href="https://gitee.com/leiguoqing/quartz-lite-starter">GitHub</a>
+    </p>
+    <p style="font-size: 16px; color: #b6b6b7">Powered by leigq Quartz-Lite: 1.1.2</p>
 </footer>
 
 <script>
