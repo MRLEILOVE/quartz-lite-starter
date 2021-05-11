@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.leigq</groupId>
 		<artifactId>quartz-lite-starter</artifactId>
-		<version>1.1.1</version>
+		<version>1.1.2</version>
 	</parent>
 
 	<!-- Spring Boot Starter 是一个 Maven 或 Gradle 模块，其唯一目的是提供 "启动" 某个特性所需的所有依赖项。
