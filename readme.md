@@ -49,7 +49,7 @@
 
 登录接口添加 `参数签名+时间戳` 机制，时间戳用于防止 DDOS 攻击，参数签名防止被抓包恶意修改参数。
 
-![](https://images.gitee.com/uploads/images/2020/0813/173640_adef7344_1425122.png)
+![](https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/PicGo20210511195934.png)
 
 ### 任务列表
 
@@ -61,9 +61,9 @@
 
 右上角可以退出登录。
 
-![](https://images.gitee.com/uploads/images/2020/0813/173640_cecbc007_1425122.png)
+![](https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/PicGo20210511200015.png)
 
-![](https://images.gitee.com/uploads/images/2020/0813/173640_0fe7e663_1425122.png)
+![](https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/PicGo20210511200041.png)
 
 ### 任务日志
 
@@ -73,7 +73,7 @@
 
 任务执行失败时，可以配置是否需要发送邮件到指定邮箱，后面会讲如何配置。
 
-![](https://images.gitee.com/uploads/images/2020/0813/173640_fb2754a5_1425122.png)
+![](https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/PicGo20210511200120.png)
 
 ![](https://images.gitee.com/uploads/images/2020/0813/173640_e050c54a_1425122.png)
 
@@ -700,7 +700,7 @@ MyBatis 的配置几乎一样，这里就不过多赘述了。
 
 ## 演示地址
 
-[https://quartz-lite.cn.utools.club](https://quartz-lite.cn.utools.club/quartz-lite/login.html)
+<https://quartz-lite.cn.utools.club/quartz-lite/login.html>
 
 - 账号：admin
 - 密码：123456
