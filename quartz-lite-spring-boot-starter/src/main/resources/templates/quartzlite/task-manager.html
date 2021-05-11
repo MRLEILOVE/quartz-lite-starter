@@ -84,12 +84,16 @@
                 </el-table-column>
 
                 <el-table-column
+                        :render-header="tableAction"
                         align="center"
                         label="执行类"
                         prop="taskClass">
 
                     <template slot-scope="scope">
-                        {{"..." + scope.row.taskClass.substring(scope.row.taskClass.lastIndexOf(".") + 1)}}
+                        <el-tooltip effect="light" placement="bottom">
+                            <div slot="content">{{scope.row.taskClass}}</div>
+                            <span>{{"..." + scope.row.taskClass.substring(scope.row.taskClass.lastIndexOf(".") + 1)}}</span>
+                        </el-tooltip>
                     </template>
 
                 </el-table-column>
@@ -146,7 +150,7 @@
 
                         <el-tag v-else-if="scope.row.triggerState==='PAUSED'" type="warning">暂停</el-tag>
 
-                        <el-tag v-else-if="scope.row.triggerState==='ACQUIRED'" type="success">正常执行</el-tag>
+                        <el-tag v-else-if="scope.row.triggerState==='ACQUIRED'" type="success">运行</el-tag>
 
                         <el-tag v-else-if="scope.row.triggerState==='BLOCKED'" type="warning">阻塞</el-tag>
 
