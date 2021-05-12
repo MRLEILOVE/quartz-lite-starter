@@ -1,5 +1,6 @@
 package com.leigq.quartzlite.autoconfigure.properties;
 
+import com.leigq.quartzlite.autoconfigure.util.RsaCoder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Set;
@@ -25,7 +26,7 @@ public class QuartzLiteProperties {
 	/**
 	 * 可视化任务页面配置
 	 */
-	private TaskView taskView;
+	private TaskView taskView = new TaskView();
 
 	/**
 	 * 任务执行异常邮件配置
@@ -38,16 +39,26 @@ public class QuartzLiteProperties {
 	private Security security;
 
 
+    /**
+     * 是否显示 Banner，默认 true
+     *
+     * @return the show banner
+     */
     public Boolean getShowBanner() {
         return showBanner;
     }
 
+    /**
+     * 是否显示 Banner，默认 true
+     *
+     * @param showBanner the show banner
+     */
     public void setShowBanner(Boolean showBanner) {
         this.showBanner = showBanner;
     }
 
     /**
-	 * Gets task view.
+	 * 可视化任务页面配置
 	 *
 	 * @return the task view
 	 */
@@ -56,7 +67,7 @@ public class QuartzLiteProperties {
 	}
 
 	/**
-	 * Sets task view.
+	 * 可视化任务页面配置
 	 *
 	 * @param taskView the task view
 	 */
@@ -65,7 +76,7 @@ public class QuartzLiteProperties {
 	}
 
 	/**
-	 * Gets mail.
+	 * 任务执行异常邮件配置
 	 *
 	 * @return the mail
 	 */
@@ -74,7 +85,7 @@ public class QuartzLiteProperties {
 	}
 
 	/**
-	 * Sets mail.
+	 * 任务执行异常邮件配置
 	 *
 	 * @param mail the mail
 	 */
@@ -84,7 +95,7 @@ public class QuartzLiteProperties {
 
 
 	/**
-	 * Gets security.
+	 * 安全相关配置
 	 *
 	 * @return the security
 	 */
@@ -93,7 +104,7 @@ public class QuartzLiteProperties {
 	}
 
 	/**
-	 * Sets security.
+	 * 安全相关配置
 	 *
 	 * @param security the security
 	 */
@@ -116,21 +127,21 @@ public class QuartzLiteProperties {
 		private String sendEmailForm;
 
 		/**
-		 * 接受异常信息的邮箱
+		 * 接受异常信息的邮箱，可配置多个
 		 */
 		private Set<String> sendEmailTo;
 
-		/**
-		 * Gets enable.
-		 *
-		 * @return the enable
-		 */
-		public boolean getEnable() {
+        /**
+         * 是否启用
+         *
+         * @return the enable
+         */
+        public boolean getEnable() {
 			return enable;
 		}
 
 		/**
-		 * Sets enable.
+		 * 是否启用
 		 *
 		 * @param enable the enable
 		 */
@@ -138,16 +149,26 @@ public class QuartzLiteProperties {
 			this.enable = enable;
 		}
 
-		public String getSendEmailForm() {
+        /**
+         * 发送邮件的邮箱
+         *
+         * @return the send email form
+         */
+        public String getSendEmailForm() {
 			return sendEmailForm;
 		}
 
-		public void setSendEmailForm(String sendEmailForm) {
+        /**
+         * 发送邮件的邮箱
+         *
+         * @param sendEmailForm the send email form
+         */
+        public void setSendEmailForm(String sendEmailForm) {
 			this.sendEmailForm = sendEmailForm;
 		}
 
 		/**
-		 * Gets receive username.
+		 * 接受异常信息的邮箱，可配置多个
 		 *
 		 * @return the receive username
 		 */
@@ -156,7 +177,7 @@ public class QuartzLiteProperties {
 		}
 
 		/**
-		 * Sets receive username.
+		 * 接受异常信息的邮箱，可配置多个
 		 *
 		 * @param sendEmailTo the receive username
 		 */
@@ -170,6 +191,12 @@ public class QuartzLiteProperties {
 	 * 可视化任务页面配置
 	 */
 	public static class TaskView {
+
+        /**
+         * 是否内嵌，默认 false， 启用内嵌后将会放开 QuartzLite的登录拦截器，用户可以不登陆直接访问任务页面及对任务进行操作，此时，登录拦截会交给第三方系统处理
+         */
+        private boolean embedded = true;
+
 		/**
 		 * 登录用户名
 		 */
@@ -180,8 +207,26 @@ public class QuartzLiteProperties {
 		 */
 		private String loginPassword = DEFAULT_LOGIN_PASSWORD;
 
-		/**
-		 * Gets login username.
+        /**
+         * 是否内嵌，默认 false， 启用内嵌后将会放开 QuartzLite的登录拦截器，用户可以不登陆直接访问任务页面及对任务进行操作，此时，登录拦截会交给第三方系统处理
+         *
+         * @return the embedded
+         */
+        public boolean getEmbedded() {
+            return embedded;
+        }
+
+        /**
+         * 是否内嵌，默认 false， 启用内嵌后将会放开 QuartzLite的登录拦截器，用户可以不登陆直接访问任务页面及对任务进行操作，此时，登录拦截会交给第三方系统处理
+         *
+         * @param embedded the embedded
+         */
+        public void setEmbedded(boolean embedded) {
+            this.embedded = embedded;
+        }
+
+        /**
+		 * 登录用户名
 		 *
 		 * @return the login username
 		 */
@@ -190,7 +235,7 @@ public class QuartzLiteProperties {
 		}
 
 		/**
-		 * Sets login username.
+		 * 登录用户名
 		 *
 		 * @param loginUsername the login username
 		 */
@@ -199,7 +244,7 @@ public class QuartzLiteProperties {
 		}
 
 		/**
-		 * Gets login password.
+		 * 登录密码
 		 *
 		 * @return the login password
 		 */
@@ -208,7 +253,7 @@ public class QuartzLiteProperties {
 		}
 
 		/**
-		 * Sets login password.
+		 * 登录密码
 		 *
 		 * @param loginPassword the login password
 		 */
@@ -219,14 +264,17 @@ public class QuartzLiteProperties {
 
 
 	/**
-	 * The type Security.
+	 * 安全相关配置
 	 */
 	public static class Security {
 
-		private Security.Auth auth;
+        /**
+         * 可视化页面认证
+         */
+        private Security.Auth auth;
 
 		/**
-		 * Gets auth.
+		 * 可视化页面认证
 		 *
 		 * @return the auth
 		 */
@@ -235,7 +283,7 @@ public class QuartzLiteProperties {
 		}
 
 		/**
-		 * Sets auth.
+		 * 可视化页面认证
 		 *
 		 * @param auth the auth
 		 */
@@ -244,22 +292,28 @@ public class QuartzLiteProperties {
 		}
 
 		/**
-		 * The type Auth.
+		 * 可视化页面认证
 		 */
 		public static class Auth {
 
 			/**
 			 * RSA 公钥
+             * <br/>
+             * 可以使用 {@link RsaCoder#generateKeyPair()} 方法重新生成
 			 */
 			private String pubKey;
 
 			/**
 			 * RSA 私钥
+             * <br/>
+             * 可以使用 {@link RsaCoder#generateKeyPair()} 方法重新生成
 			 */
 			private String priKey;
 
 			/**
-			 * Gets pub key.
+			 * RSA 公钥
+             * <br/>
+             * 可以使用 {@link RsaCoder#generateKeyPair()} 方法重新生成
 			 *
 			 * @return the pub key
 			 */
@@ -268,7 +322,9 @@ public class QuartzLiteProperties {
 			}
 
 			/**
-			 * Sets pub key.
+			 * RSA 公钥
+             * <br/>
+             * 可以使用 {@link RsaCoder#generateKeyPair()} 方法重新生成
 			 *
 			 * @param pubKey the pub key
 			 */
@@ -277,7 +333,9 @@ public class QuartzLiteProperties {
 			}
 
 			/**
-			 * Gets pri key.
+			 * RSA 私钥
+             * <br/>
+             * 可以使用 {@link RsaCoder#generateKeyPair()} 方法重新生成
 			 *
 			 * @return the pri key
 			 */
@@ -286,7 +344,9 @@ public class QuartzLiteProperties {
 			}
 
 			/**
-			 * Sets pri key.
+			 * RSA 私钥
+             * <br/>
+             * 可以使用 {@link RsaCoder#generateKeyPair()} 方法重新生成
 			 *
 			 * @param priKey the pri key
 			 */

@@ -29,7 +29,7 @@
             <el-button icon="el-icon-date" round  size="small" type="info" @click="windowOpen('http://cron.qqe2.com')">在线Cron表达式生成
             </el-button>
 
-            <div style="position:absolute; right: 127px; top: 9px">
+            <div style="position:absolute; left: 375px; top: 9px">
                 <span style="font-size: 16px; color: #909399">自动刷新时间：</span>
                 <el-select style="width: 100px" @change="autoRefreshTime" placeholder="自动刷新时间" size="small" v-model="value">
                     <el-option
@@ -41,7 +41,7 @@
                 </el-select>
             </div>
 
-            <el-button size="small" @click="logout" style="position:absolute; right: 20px;" round type="danger" plain icon="el-icon-s-home">退出登录</el-button>
+            <el-button v-if="this.embedded === false" size="small" @click="logout" style="position:absolute; right: 20px;" round type="danger" plain icon="el-icon-s-home">退出登录</el-button>
 
             <div style="display: flex; justify-content: center; margin-top: -38px">
                 <img style="width: 130px;" src="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/logo.png">
@@ -422,7 +422,8 @@
             ],
             value: 1,
             timer: '',
-            currentDate: new Date()
+            currentDate: new Date(),
+            embedded: false,
         },
         mounted() {
             this.timer = setInterval(function () {
@@ -432,6 +433,9 @@
             setInterval(function () {
                 vue.currentDate = new Date(); // 修改数据date
             }, 1000)
+
+            // 获取是否嵌入系统
+            this.getEmbedded();
         },
         methods: {
             // 提醒通知
@@ -747,6 +751,20 @@
                 this.initData(this.currentPage, this.pageSize);
             },
 
+            // 获取是否嵌入系统
+            getEmbedded() {
+                this.$http.get('/quartz-lite/user/embedded').then(function (res) {
+                    var body = res.body;
+                    const meta = body.meta;
+                    if (meta.code === 0) {
+                        this.embedded = body.data;
+                    } else {
+                        this.notifyWarning(meta.msg);
+                    }
+                }, function () {
+                    this.notifyError(res.body.meta.msg);
+                });
+            },
         },
     });
 

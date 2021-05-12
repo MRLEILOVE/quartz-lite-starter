@@ -22,7 +22,7 @@
 <div id="log">
     <template>
         <div id="top">
-            <el-button size="small" @click="logout" style="position:absolute; right: 20px;" round type="danger" plain icon="el-icon-s-home">退出登录</el-button>
+            <el-button v-if="this.embedded === false" size="small" @click="logout" style="position:absolute; right: 20px;" round type="danger" plain icon="el-icon-s-home">退出登录</el-button>
 
             <div style="display: flex; justify-content: left; ">
                 <img style="width: 130px; margin-top: -5px" src="https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/gitee/logo.png">
@@ -131,9 +131,13 @@
 
             //默认数据总数
             totalCount: 1000,
+
+            // 是否嵌入系统
+            embedded: false,
         },
         mounted() {
-
+            // 获取是否嵌入系统
+            this.getEmbedded();
         },
         methods: {
             // 登出
@@ -222,6 +226,21 @@
             handleCurrentChange: function (val) {
                 this.currentPage = val;
                 this.initData(this.currentPage, this.pageSize);
+            },
+
+            // 获取是否嵌入系统
+            getEmbedded() {
+                this.$http.get('/quartz-lite/user/embedded').then(function (res) {
+                    var body = res.body;
+                    const meta = body.meta;
+                    if (meta.code === 0) {
+                        this.embedded = body.data;
+                    } else {
+                        this.notifyWarning(meta.msg);
+                    }
+                }, function () {
+                    this.notifyError(res.body.meta.msg);
+                });
             },
         },
     });

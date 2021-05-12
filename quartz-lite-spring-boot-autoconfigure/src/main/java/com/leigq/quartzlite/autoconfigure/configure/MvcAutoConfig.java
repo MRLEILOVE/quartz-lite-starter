@@ -1,12 +1,17 @@
 package com.leigq.quartzlite.autoconfigure.configure;
 
 import com.leigq.quartzlite.autoconfigure.interceptor.QuartzLiteLoginInterceptor;
+import com.leigq.quartzlite.autoconfigure.properties.QuartzLiteProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Objects;
 
 
 /**
@@ -25,19 +30,28 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2019-05-24 23:50 <br>
  */
 @Configuration
-@AutoConfigureAfter(value = WebMvcAutoConfiguration.class)
+@EnableConfigurationProperties(QuartzLiteProperties.class)
+@AutoConfigureAfter(value = {WebMvcAutoConfiguration.class})
 public class MvcAutoConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private QuartzLiteProperties quartzLiteProperties;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		/* 添加自定义拦截器 */
-		QuartzLiteLoginInterceptor quartzLiteLoginInterceptor = new QuartzLiteLoginInterceptor();
-		// 登录拦截器
-		registry.addInterceptor(quartzLiteLoginInterceptor)
-				// 添加拦截规则，先把所有路径都加入拦截，再一个个排除
-				.addPathPatterns("/quartz-lite/**")
-				// 排除拦截，表示该路径不用拦截
-				.excludePathPatterns("/quartz-lite/user/login", "/quartz-lite/login.html", "/quartz-lite/user/imgCode", "/quartz-lite/user/pubKey", "/templates/quartzlite/**", "/static/quartzlite/**");
+        final QuartzLiteProperties.TaskView taskView = quartzLiteProperties.getTaskView();
+        // 嵌入系统
+        if (Objects.nonNull(taskView) && taskView.getEmbedded()){
+            return;
+        }
+        /* 添加自定义拦截器 */
+        QuartzLiteLoginInterceptor quartzLiteLoginInterceptor = new QuartzLiteLoginInterceptor();
+        // 登录拦截器
+        registry.addInterceptor(quartzLiteLoginInterceptor)
+                // 添加拦截规则，先把所有路径都加入拦截，再一个个排除
+                .addPathPatterns("/quartz-lite/**")
+                // 排除拦截，表示该路径不用拦截
+                .excludePathPatterns("/quartz-lite/user/login", "/quartz-lite/login.html", "/quartz-lite/user/imgCode", "/quartz-lite/user/pubKey", "/templates/quartzlite/**", "/static/quartzlite/**");
 	}
 
 	/**
@@ -49,12 +63,12 @@ public class MvcAutoConfig implements WebMvcConfigurer {
 	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/quartz-lite/*.html")
-				.addResourceLocations("classpath:/templates/quartzlite/");
+        registry.addResourceHandler("/quartz-lite/*.html")
+                .addResourceLocations("classpath:/templates/quartzlite/");
 
-		// 这是请求url的匹配模式，匹配url根路径下的所有路径（包括子路径，如果只有一个*，那就不包括子路径）
-		registry.addResourceHandler("/static/quartzlite/**")
-				// 这是文件路径的匹配模式，值上面匹配的路径在这个文件夹下面找文件
-				.addResourceLocations("classpath:/static/quartzlite/");
+        // 这是请求url的匹配模式，匹配url根路径下的所有路径（包括子路径，如果只有一个*，那就不包括子路径）
+        registry.addResourceHandler("/static/quartzlite/**")
+                // 这是文件路径的匹配模式，值上面匹配的路径在这个文件夹下面找文件
+                .addResourceLocations("classpath:/static/quartzlite/");
 	}
 }

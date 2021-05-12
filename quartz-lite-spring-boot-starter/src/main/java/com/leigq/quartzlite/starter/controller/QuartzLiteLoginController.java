@@ -177,6 +177,23 @@ public class QuartzLiteLoginController {
     }
 
 
+    /**
+     * 获取是否嵌入系统
+     *
+     * @return 是否嵌入系统
+     */
+    @GetMapping("/embedded")
+    public Response getEmbedded() {
+        final QuartzLiteProperties.TaskView taskView = quartzLiteProperties.getTaskView();
+        boolean embedded = false;
+        if (Objects.nonNull(taskView)) {
+            embedded = taskView.getEmbedded();
+        }
+        return Response.success("获取是否嵌入系统成功", embedded);
+    }
+
+
+
     private String decrypt(String data) {
         try {
             return RsaCoder.decryptByPriKey(data);
