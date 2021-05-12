@@ -19,8 +19,8 @@
     <a href="https://github.com/xuxueli/xxl-job/actions">
         <img src="https://github.com/xuxueli/xxl-job/workflows/Java%20CI/badge.svg" >
     </a>
-    <a href="https://gitee.com/leiguoqing/quartz-lite-starter/releases/1.1.3">
-        <img src="https://img.shields.io/badge/release-v1.1.3-green">
+    <a href="https://gitee.com/leiguoqing/quartz-lite-starter/releases/1.2.0">
+        <img src="https://img.shields.io/badge/release-v1.2.0-green">
     </a>
     <a href='https://spring.io/projects/spring-boot'>
         <img alt="springboot-version" src="https://img.shields.io/badge/SpringBoot-2.2.9.RELEASE-orange">
@@ -37,9 +37,9 @@
 </p>
 
 
-## 功能展示
+# 一、功能展示
 
-### 登录
+## 1、登录
 
 用户需要正常登录后，方可进入系统，若不登陆直接访问列表或日志页面，则会自动跳转至登录页面。每次登录有效时长为30分钟，过期后任何操作，也会跳转至登录页面。
 
@@ -51,7 +51,7 @@
 
 ![](https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/PicGo20210511195934.png)
 
-### 任务列表
+## 2、任务列表
 
 任务列表显示每个任务的基本信息，可对任务进行`立即执行`、`暂停`、`恢复`、`删除`、`修改`、`日志查询`操作。
 
@@ -65,7 +65,7 @@
 
 ![](https://leigq-blog.oss-cn-shenzhen.aliyuncs.com/PicGo20210511200041.png)
 
-### 任务日志
+## 3、任务日志
 
 任务日志页面，可以看到对应任务的`执行时间`、`执行结果`、`执行成功或异常信息`。
 
@@ -80,9 +80,9 @@
 ![](https://images.gitee.com/uploads/images/2020/0813/173640_1280671e_1425122.png)
 
 
-## 使用说明
+# 二、使用说明
 
-### 1、创建框架所需表
+## 1、创建框架所需表
 
 新建一个数据库或在已存在的数据库中，执行以下SQL脚本，即可创建框架所需表。
 
@@ -322,9 +322,9 @@ CREATE TABLE `sys_task_log`
 COMMIT;
 ```
 
-### 2、项目集成
+## 2、项目集成
 
-1、引入 Maven 依赖
+### 1、 引入 Maven 依赖
 
 在 pom.xml 中添加依赖：
 
@@ -341,7 +341,7 @@ COMMIT;
     <dependency>
         <groupId>com.gitee.leiguoqing.quartz-lite-starter</groupId>
         <artifactId>quartz-lite-spring-boot-starter</artifactId>
-        <version>1.1.3</version>
+        <version>1.2.0</version>
     </dependency>
 </dependencies>
 
@@ -452,7 +452,7 @@ __重点来了__：如果你发现你无法获取到 Jar 包，很有可能是�
 
 原因：如果把 `mirrorOf` 配置成 * ，那么所有的远程仓库都会阿里云上面找，但是 Quartz-Lite 的 Jar 是通过 jitpack 管理的，阿里云上面没有，所有要将 jitpack 排除掉，这样就能正常下载到 Jar 包了。
 
-2、配置数据库
+### 2、配置数据库
 
 在 `application.yml` 中添加以下配置：
 
@@ -466,7 +466,7 @@ spring:
     url: jdbc:mysql://localhost:3306/{database}?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&autoReconnect=true&serverTimezone=UTC&rewriteBatchedStatements=true
 ```
 
-3、配置 Quartz-Lite
+### 3、配置 Quartz-Lite
 
 Quartz-Lite 的配置是在 Quartz 框架的配置之上做增强，原本 Quartz 框架的配置该怎么配还是怎么配，下面给出一个参考配置：
 
@@ -474,21 +474,25 @@ Quartz-Lite 的配置是在 Quartz 框架的配置之上做增强，原本 Quart
 spring:
   # ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ quartz配置 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ #
   quartz:
+    ## 是否显示 Banner
+    show-banner: true
     ## 任务执行异常发送邮件配置
     mail:
       ## 是否启用
-      enable: true
+      enable: false
       ## 发送邮件的邮箱
-      send-email-form: 'xxxxxxxx@qq.com'
+      send-email-form: '191789784@qq.com'
       ## 接收邮件的邮箱，可配至多个
       send-email-to:
-        - 'xxxxxxxx@qq.com'
+        - '191789784@qq.com'
     ## 任务页面配置
     task-view:
+      # 是否嵌入系统
+      embedded: false
       # 帐号
       login-username: admin
       # 密码
-      login-password: '123456'
+      login-password: 123456
     security:
       # 公钥、私钥配置
       auth:
@@ -530,16 +534,18 @@ spring:
             # 优先级
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
-    #数据库方式
+    # 数据库方式
     job-store-type: jdbc
-      #初始化表结构
-    #jdbc:
-    #initialize-schema: never
+    # 初始化表结构
+    jdbc:
+      initialize-schema: never
 ```
 
-上面配置中的 `quartz.mail` 、 `quartz.task-view` 、 `quartz.security` 为 Quartz-Lite 框架的增强配置，下面来具体说下这几个配置是干啥用的。
+上面配置中的 `quartz.show-banner`、`quartz.mail` 、 `quartz.task-view` 、 `quartz.security` 为 Quartz-Lite 框架的增强配置，下面来具体说下这几个配置是干啥用的。
 
-1、 `quartz.mail` 主要是任务执行异常发送邮件的配置，如果不配置则不会启用该功能，此功能依赖于 spring-boot-starter-mail，所以要想使用此功能还得先配置 spring-boot-starter-mail，如下：
+- `quartz.show-banner`：是否显示启动时的 Banner，默认为 true
+
+-  `quartz.mail` 主要是任务执行异常发送邮件的配置，如果不配置则不会启用该功能，此功能依赖于 spring-boot-starter-mail，所以要想使用此功能还得先配置 spring-boot-starter-mail，如下：
 
 ```yml
 spring:
@@ -574,12 +580,16 @@ spring:
 配置好 spring-boot-starter-mail 之后，还有确保 `quartz.mail.enable` 配置为 true，否则邮件功能还是不会启用的。
 
 
-2、`quartz.task-view` 主要是配置任务可视化页面的登录账号、密码，如果不配置默认账号、密码均为 admin。
+- `quartz.task-view` 
+
+  - embedded: 主要是配置任务可视化页面是否嵌入第三方系统，默认 false， 启用内嵌后将会放开 QuartzLite的登录拦截器，用户可以不登陆直接访问任务页面及对任务进行操作，此时，登录拦截会交给第三方系统处理，具体需要用户处理哪些接口文档下面会给出
+  - login-username: 主要是配置任务可视化页面的登录账号、如果不配置默认账号为 admin。
+  - login-password: 主要是配置任务可视化页面的登录密码，如果不配置默认密码为 admin。
 
 
-3、`quartz.security.auth` 主要是配置 RSA 加密所用到的公钥、私钥，不配置的话也会使用默认的，但是这里还是建议大家重新配置一下，可以自己写个 main 方法，然后调用框架中的 `com.leigq.quartzlite.autoconfigure.util.RsaCoder#generateKeyPair()` 方法生成新的公钥、私钥。
+- `quartz.security.auth` 主要是配置 RSA 加密所用到的公钥、私钥，不配置的话也会使用默认的，但是这里还是建议大家重新配置一下，可以自己写个 main 方法，然后调用框架中的 `com.leigq.quartzlite.autoconfigure.util.RsaCoder#generateKeyPair()` 方法生成新的公钥、私钥。
 
-至此，Quartz-Lite 就配置好了，现在可以运行项目了，项目启动后，在浏览器输入：<http://localhost:8080/quartz-lite/login.html> 即可进入登录页面。
+至此，Quartz-Lite 就配置好了，现在可以运行项目了，项目启动后，在浏览器输入：<http://{IP}:{PORT}/quartz-lite/login.html> 即可进入登录页面。
 
 此时系统中是一个任务都没有的，下面给出一个任务的示例代码：
 
@@ -642,12 +652,22 @@ public class HelloQuartz extends BaseTaskExecute implements Serializable {
 
 - dataMap 为执行任务的参数，在新增页面上可以看到此参数的配置方法。
 
+- 新建好任务之后，先重启下服务，让任务注入到Spring中，不然添加任务的时候会提示 “找不到执行类，请检查执行类是否配置@Component注解！”，重启后，再到可视化界面添加就行了。
 
-## 需要注意的点
 
-1、拦截器
+# 三、需要注意的点
 
-如果你的项目里面有用到拦截器，请排除 Quartz-Lite 相关请求（Quartz-Lite 内部有自己的拦截器来处理登录功能），就像下面这样：
+## 1、拦截器
+
+拦截器的设置取决于 quartz.task-view.embedded 的参数配置。
+
+这里分两种情况：
+
+*一、quartz.task-view.embedded 设置为 false, 默认为 false*
+
+quartz.task-view.embedded 设置为 false 时，说明不启用内嵌页面模式，那 Quartz-Lite 内部就会有自己的拦截器来处理登录功能。
+
+此时，如果你的项目里面有用到拦截器，请排除 Quartz-Lite 相关请求，就像下面这样：
 
 ```java
 @Configuration
@@ -671,7 +691,16 @@ public class MvcConfig implements WebMvcConfigurer {
 - __/static/quartzlite/**__ ：静态资源
 
 
-2、MyBatis、MyBatisPlus配置
+*二、quartz.task-view.embedded 设置为 true, 默认为 false*
+
+quartz.task-view.embedded 设置为 true 时，说明启用内嵌页面模式，那 Quartz-Lite 内部来处理登录功能的拦截器将不会生效。
+
+此时，如果你的项目里面有用到拦截器，请自行拦截 Quartz-Lite 相关请求，具体需要控制那些APi，请看文档下面的**核心API接口列表**。
+
+配置好拦截之后，就可以将页面嵌入到你自己的系统内了，将任务列表地址 “**http://{IP}:{PORT}/quartz-lite/task-manager.html**” 嵌入到你自己系统内，具体使用Vue还是iframe嵌套，取决你自己的系统了。
+
+
+## 2、MyBatis、MyBatisPlus配置
 
 如果你的项目是使用的 MyBatis 或 MyBatisPlus 框架，在配置 `mapper-locations` 属性时需要注意，像下面这样：
 
@@ -698,7 +727,20 @@ mybatis-plus:
 MyBatis 的配置几乎一样，这里就不过多赘述了。
 
 
-## 演示地址
+# 四、核心API接口列表
+
+|接口地址|请求类型|接口说明|
+|--|--|--|
+|/quartz-lite/tasks|Post|添加任务
+|/quartz-lite/tasks|Put|更新任务
+|/quartz-lite/tasks/action/execute/{task_name}/{task_group}|Post|执行任务|
+|/quartz-lite/tasks/action/pause/{task_name}/{task_group}|Post|暂停任务
+|/quartz-lite/tasks/action/resume/{task_name}/{task_group}|Post|恢复任务
+|/quartz-lite/tasks/{task_name}/{task_group}|Delete|删除任务
+|/quartz-lite/tasks/{page_num}/{page_size}|Get|查询任务列表
+|/quartz-lite/logs/{task_id}/{page_num}/{page_size}|Get|查询任务日志列表
+
+# 五、演示地址
 
 <https://quartz-lite.cn.utools.club/quartz-lite/login.html>
 
