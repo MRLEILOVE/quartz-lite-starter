@@ -12,7 +12,6 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
@@ -42,9 +41,6 @@ import java.util.Objects;
 public class QuartzLiteAutoConfig {
 
 	Logger log = LoggerFactory.getLogger(QuartzLiteAutoConfig.class);
-
-    @Autowired
-    private QuartzLiteBanner quartzLiteBanner;
 
 	/**
 	 * MP 分页插件
@@ -79,7 +75,13 @@ public class QuartzLiteAutoConfig {
 		return mapperFactory;
 	}
 
-    public QuartzLiteAutoConfig(QuartzLiteProperties quartzLiteProperties) {
+    /**
+     * 构造方法
+     *
+     * @param quartzLiteBanner     the quartz lite banner
+     * @param quartzLiteProperties the quartz lite properties
+     */
+    public QuartzLiteAutoConfig(QuartzLiteBanner quartzLiteBanner, QuartzLiteProperties quartzLiteProperties) {
         final Boolean showBanner = quartzLiteProperties.getShowBanner();
         // 打印 Banner
         if (Objects.nonNull(showBanner) && showBanner) {
