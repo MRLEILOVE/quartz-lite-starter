@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.leigq.quartzlite.autoconfigure.banner.QuartzLiteBanner;
 import com.leigq.quartzlite.autoconfigure.properties.QuartzLiteProperties;
 import com.leigq.quartzlite.autoconfigure.util.RsaCoder;
 import ma.glasnost.orika.MapperFactory;
@@ -11,11 +12,13 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
@@ -31,6 +34,7 @@ import java.util.Objects;
  * @author leiguoqing
  * @date 2020-08-09 21:23:12
  */
+@ComponentScan(basePackages = "com.leigq.quartzlite.autoconfigure")
 @MapperScan("com.leigq.quartzlite.starter.domain.mapper")
 @AutoConfigureAfter({QuartzAutoConfiguration.class, MybatisPlusAutoConfiguration.class})
 @EnableConfigurationProperties(QuartzLiteProperties.class)
@@ -38,6 +42,9 @@ import java.util.Objects;
 public class QuartzLiteAutoConfig {
 
 	Logger log = LoggerFactory.getLogger(QuartzLiteAutoConfig.class);
+
+    @Autowired
+    private QuartzLiteBanner quartzLiteBanner;
 
 	/**
 	 * MP 分页插件
@@ -72,10 +79,15 @@ public class QuartzLiteAutoConfig {
 		return mapperFactory;
 	}
 
-	public QuartzLiteAutoConfig(QuartzLiteProperties quartzLiteProperties) {
-		this.initTaskView(quartzLiteProperties);
-		this.initSecurityAuth(quartzLiteProperties);
-	}
+    public QuartzLiteAutoConfig(QuartzLiteProperties quartzLiteProperties) {
+        final Boolean showBanner = quartzLiteProperties.getShowBanner();
+        // 打印 Banner
+        if (Objects.nonNull(showBanner) && showBanner) {
+            quartzLiteBanner.printBanner();
+        }
+        this.initTaskView(quartzLiteProperties);
+        this.initSecurityAuth(quartzLiteProperties);
+    }
 
 
 	private void initTaskView(QuartzLiteProperties quartzLiteProperties) {

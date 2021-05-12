@@ -17,6 +17,11 @@ public class QuartzLiteProperties {
 
 	public static final String DEFAULT_LOGIN_PASSWORD = "admin";
 
+    /**
+     * 是否显示 Banner，默认 true
+     */
+    private Boolean showBanner;
+
 	/**
 	 * 可视化任务页面配置
 	 */
@@ -33,7 +38,15 @@ public class QuartzLiteProperties {
 	private Security security;
 
 
-	/**
+    public Boolean getShowBanner() {
+        return showBanner;
+    }
+
+    public void setShowBanner(Boolean showBanner) {
+        this.showBanner = showBanner;
+    }
+
+    /**
 	 * Gets task view.
 	 *
 	 * @return the task view

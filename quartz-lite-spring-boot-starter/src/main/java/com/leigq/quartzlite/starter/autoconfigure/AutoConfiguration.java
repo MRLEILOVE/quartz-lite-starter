@@ -1,6 +1,6 @@
 package com.leigq.quartzlite.starter.autoconfigure;
 
-import com.leigq.quartzlite.starter.banner.QuartzLiteBanner;
+import com.leigq.quartzlite.autoconfigure.configure.QuartzLiteAutoConfig;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,12 +14,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan(basePackages = {"com.leigq.quartzlite.starter"})
-@AutoConfigureAfter(value = MailSenderAutoConfiguration.class)
+@AutoConfigureAfter(value = {MailSenderAutoConfiguration.class, QuartzLiteAutoConfig.class})
 public class AutoConfiguration {
-
-	public AutoConfiguration(QuartzLiteBanner quartzLiteBanner) {
-		// 打印 Quartz-Lite 的 Banner
-		quartzLiteBanner.printBanner();
-	}
 
 }

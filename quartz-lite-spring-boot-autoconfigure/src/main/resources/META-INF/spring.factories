@@ -1,2 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.leigq.quartzlite.autoconfigure.configure.QuartzLiteAutoConfig,\
-  com.leigq.quartzlite.autoconfigure.configure.MvcAutoConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.leigq.quartzlite.autoconfigure.configure.QuartzLiteAutoConfig
